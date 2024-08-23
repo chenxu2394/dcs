@@ -2,6 +2,15 @@ import api from "../api"
 import { useQuery } from "@tanstack/react-query"
 
 import { Product } from "../types"
+import {
+  Card,
+  CardHeader,
+  CardTitle,
+  CardDescription,
+  CardContent,
+  CardFooter
+} from "@/components/ui/card"
+import { Button } from "@/components/ui/button"
 
 export function Home() {
   const handleFetchProducts = async () => {
@@ -18,14 +27,21 @@ export function Home() {
   })
 
   return (
-    <div className="flex flex-col justify-center items-center gap-10 h-screen">
-      <h1 className="text-2xl">Welcome!</h1>
-      {isLoading && <p>Loading...</p>}
-      {products?.map((product) => (
-        <div key={product.id}>
-          <h4>{product.name}</h4>
-        </div>
-      ))}
+    <div className="p-2">
+      <div className="grid grid-cols-3 gap-5">
+        {isLoading && <p>Loading...</p>}
+        {products?.map((product) => (
+          <Card key={product.id}>
+            <CardHeader>
+              <CardTitle>{product.name}</CardTitle>
+              <CardDescription>{product.description}</CardDescription>
+            </CardHeader>
+            <CardFooter>
+              <Button>Add to Card</Button>
+            </CardFooter>
+          </Card>
+        ))}
+      </div>
     </div>
   )
 }
