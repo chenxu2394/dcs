@@ -3,6 +3,7 @@ export type Product = {
   name: string
   price: number
   category: string
+  description: string
 }
 
 export type ProductCreate = Omit<Product, "id">
