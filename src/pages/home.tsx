@@ -23,14 +23,15 @@ export function Home() {
 
   const { data: products, isLoading } = useQuery<Product[]>({
     queryKey: ["products"],
-    queryFn: handleFetchProducts
+    queryFn: handleFetchProducts,
+    initialData: []
   })
 
   return (
     <div className="p-2">
       <div className="grid grid-cols-3 gap-5">
         {isLoading && <p>Loading...</p>}
-        {products?.map((product) => (
+        {products.map((product) => (
           <Card key={product.id}>
             <CardHeader>
               <CardTitle>{product.name}</CardTitle>
