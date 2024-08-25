@@ -4,8 +4,20 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 
 const QUERY_KEY = "products"
 
-export function getQueryKey() {
+export function getQueryKey(id?: string) {
+  if (id) {
+    return [QUERY_KEY, id]
+  }
   return [QUERY_KEY]
+}
+
+export function useGetOneProduct(id: string): [Product | undefined, boolean] {
+  const { data: product, isLoading } = useQuery<Product>({
+    queryKey: getQueryKey(id),
+    queryFn: () => ProductService.getOne(id)
+    // enabled: !!id
+  })
+  return [product, isLoading]
 }
 
 export function useGetProducts(): [Product[], boolean] {

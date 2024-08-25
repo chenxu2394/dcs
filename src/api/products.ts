@@ -12,6 +12,14 @@ export default {
     return res.data
   },
 
+  getOne: async (id: string) => {
+    const res = await api.get(`${RESOURCE}/${id}`)
+    if (res.status !== 200) {
+      throw new Error("Error fetching product")
+    }
+    return res.data
+  },
+
   createOne: async (product: ProductCreate) => {
     const res = await api.post(RESOURCE, product)
 
