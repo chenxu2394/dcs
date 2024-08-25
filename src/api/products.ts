@@ -15,9 +15,9 @@ export default {
   createOne: async (product: ProductCreate) => {
     const res = await api.post(RESOURCE, product)
 
-    // if (res.status !== 200) {
-    //   throw new Error("Error posting product")
-    // }
+    if (res.status !== 200) {
+      throw new Error("Error posting product")
+    }
 
     return res.data
   }
