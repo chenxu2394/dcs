@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button"
 import { useGetProducts, useCreateProduct } from "@/features/use-products"
 import { ProductCreate } from "@/types"
 import { useState } from "react"
+import { Can } from "@/components/Can"
 
 export function Home() {
   const [newProduct, setNewProduct] = useState<ProductCreate>({
@@ -18,8 +19,16 @@ export function Home() {
 
   return (
     <div className="p-2">
-      <Button onClick={() => addProduct.mutate(newProduct)}>Add Product</Button>
-      {isLoading ? <p>Loading...</p> : <ProductList products={products} />}
+      <Can
+        permission="PRODUCT:ADD"
+        permissionType="actions"
+        yes={() => <Button onClick={() => addProduct.mutate(newProduct)}>Add Product</Button>}
+      />
+      <Can
+        permission="PRODUCT:GET"
+        permissionType="actions"
+        yes={() => (isLoading ? <p>Loading...</p> : <ProductList products={products} />)}
+      />
     </div>
   )
 }
