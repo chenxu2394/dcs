@@ -5,7 +5,7 @@ export type Product = {
   quantity: number
   price: number
   discount: number
-  category: string
+  categoryId: string
 }
 
 export type ProductCreate = Omit<Product, "id">
