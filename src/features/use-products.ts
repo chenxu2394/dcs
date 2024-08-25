@@ -2,6 +2,11 @@ import api from "@/api"
 import { Product } from "@/types"
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 
+const QUERY_KEY = "products"
+export function getQueryKey() {
+  return [QUERY_KEY]
+}
+
 const handleFetchProducts = async () => {
   const res = await api.get("/products")
   if (res.status !== 200) {
@@ -12,7 +17,7 @@ const handleFetchProducts = async () => {
 
 export function useGetProducts(): [Product[], boolean] {
   const { data: products, isLoading } = useQuery<Product[]>({
-    queryKey: ["products"],
+    queryKey: getQueryKey(),
     queryFn: handleFetchProducts,
     initialData: []
   })
@@ -40,7 +45,7 @@ export function useCreateProduct() {
   const mutation = useMutation<Product>({
     mutationFn: handleAddProduct,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["products"] })
+      queryClient.invalidateQueries({ queryKey: getQueryKey() })
     }
   })
   return mutation
