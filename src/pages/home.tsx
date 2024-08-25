@@ -4,17 +4,11 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 import { Product } from "../types"
 import { ProductList } from "@/components/ProductList"
 import { Button } from "@/components/ui/button"
+import { useGetProducts } from "@/features/use-products"
 
 export function Home() {
   const queryClient = useQueryClient()
-
-  const handleFetchProducts = async () => {
-    const res = await api.get("/products")
-    if (res.status !== 200) {
-      throw new Error("Error fetching products")
-    }
-    return res.data
-  }
+  const [products, isLoading] = useGetProducts()
 
   const handleAddProduct = async () => {
     const res = await api.post("/products", {
@@ -34,12 +28,6 @@ export function Home() {
     queryClient.invalidateQueries({ queryKey: ["products"] })
     return res.data
   }
-
-  const { data: products, isLoading } = useQuery<Product[]>({
-    queryKey: ["products"],
-    queryFn: handleFetchProducts,
-    initialData: []
-  })
 
   const mutation = useMutation<Product[]>({
     mutationFn: handleAddProduct
