@@ -1,49 +1,26 @@
-import api from "@/api"
+import ProductService from "@/api/products"
 import { Product } from "@/types"
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 
 const QUERY_KEY = "products"
+
 export function getQueryKey() {
   return [QUERY_KEY]
-}
-
-const handleFetchProducts = async () => {
-  const res = await api.get("/products")
-  if (res.status !== 200) {
-    throw new Error("Error fetching products")
-  }
-  return res.data
 }
 
 export function useGetProducts(): [Product[], boolean] {
   const { data: products, isLoading } = useQuery<Product[]>({
     queryKey: getQueryKey(),
-    queryFn: handleFetchProducts,
+    queryFn: ProductService.getAll,
     initialData: []
   })
   return [products, isLoading]
 }
 
-const handleAddProduct = async () => {
-  const res = await api.post("/products", {
-    name: "Jeans",
-    description: "This is a new product",
-    quantity: 10,
-    price: 100,
-    discount: 0,
-    categoryId: "de8a2af1-86b3-4471-a1dd-e52ab8d21f9c"
-  })
-
-  // if (res.status !== 200) {
-  //   throw new Error("Error posting product")
-  // }
-
-  return res.data
-}
 export function useCreateProduct() {
   const queryClient = useQueryClient()
   const mutation = useMutation<Product>({
-    mutationFn: handleAddProduct,
+    mutationFn: ProductService.createOne,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: getQueryKey() })
     }
