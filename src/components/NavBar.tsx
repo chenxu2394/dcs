@@ -5,6 +5,7 @@ import {
   NavigationMenuList
 } from "@/components/ui/navigation-menu"
 import { ModeToggle } from "./mode-toggle"
+import { Link } from "react-router-dom"
 
 const NavMenuItemLink = ({ href, children }: { href: string; children: React.ReactNode }) => {
   return (
@@ -20,7 +21,9 @@ const NavMenuItemLink = ({ href, children }: { href: string; children: React.Rea
 export function NavBar() {
   return (
     <div className="flex justify-between items-center w-full p-2 shadow-md">
-      <span className="ml-4 font-bold text-lg">ECM</span>
+      <Link to="/" className="ml-4 font-bold text-lg no-underline">
+        ECM
+      </Link>
       <NavigationMenu>
         <NavigationMenuList>
           <NavigationMenuItem className="flex">
