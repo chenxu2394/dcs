@@ -18,8 +18,8 @@ const NavMenuItemLink = ({ href, children }: { href: string; children: React.Rea
 
 export function NavBar() {
   return (
-    <div className="flex justify-between p-2">
-      <NavigationMenu className="flex justify-center">
+    <div className="flex justify-center p-2">
+      <NavigationMenu>
         <NavigationMenuList>
           <NavigationMenuItem className="flex">
             <NavMenuItemLink href="/">Home</NavMenuItemLink>
