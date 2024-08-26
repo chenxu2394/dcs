@@ -19,9 +19,6 @@ export function ProductCard({ product }: ProductCardProps) {
         <CardTitle>{product.name}</CardTitle>
         <CardDescription>{product.description}</CardDescription>
       </CardHeader>
-      <CardFooter>
-        <Button>Add to Card</Button>
-      </CardFooter>
     </Card>
   )
 }
