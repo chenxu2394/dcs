@@ -11,6 +11,10 @@ export function getQueryKey(id?: string) {
   return [QUERY_KEY]
 }
 
+export function getSearchQueryKey(searchTerm: string) {
+  return [QUERY_KEY, "search", searchTerm]
+}
+
 export function useGetOneProduct(id: string): [Product | undefined, boolean] {
   const { data: product, isLoading } = useQuery<Product>({
     queryKey: getQueryKey(id),
@@ -24,6 +28,15 @@ export function useGetProducts(): [Product[], boolean] {
   const { data: products, isLoading } = useQuery<Product[]>({
     queryKey: getQueryKey(),
     queryFn: ProductService.getAll,
+    initialData: []
+  })
+  return [products, isLoading]
+}
+
+export function useSearchProducts(name: string): [Product[], boolean] {
+  const { data: products, isLoading } = useQuery<Product[]>({
+    queryKey: getSearchQueryKey(name),
+    queryFn: () => ProductService.filterByName(name),
     initialData: []
   })
   return [products, isLoading]
