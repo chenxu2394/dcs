@@ -15,16 +15,24 @@ import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover
 
 interface Props {
   allCategoryNames: string[]
+  selectedCategory: string
+  setSelectedCategory: (category: string) => void
 }
 
-export function CategorySelection({ allCategoryNames }: Props) {
+export function CategorySelection({
+  allCategoryNames,
+  selectedCategory,
+  setSelectedCategory
+}: Props) {
   const [open, setOpen] = React.useState(false)
   const [value, setValue] = React.useState("")
 
-  const categories = allCategoryNames.map((categoryName) => ({
-    value: categoryName,
-    label: categoryName
-  }))
+  const categories = [{ value: "All Categories", label: "All Categories" }].concat(
+    allCategoryNames.map((categoryName) => ({
+      value: categoryName,
+      label: categoryName
+    }))
+  )
 
   return (
     <Popover open={open} onOpenChange={setOpen}>
@@ -35,7 +43,7 @@ export function CategorySelection({ allCategoryNames }: Props) {
           aria-expanded={open}
           className="w-[200px] justify-between"
         >
-          {value
+          {value && categories.some((category) => category.value === value)
             ? categories.find((category) => category.value === value)?.label
             : "Select category..."}
           <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />

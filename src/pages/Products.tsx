@@ -9,6 +9,7 @@ import { useGetCategories } from "@/features/use-categories"
 export function Products() {
   const [searchTerm, setSearchTerm] = useState<string>("")
   const debouncedSearchTerm = useDebounce(searchTerm, 500)
+  const [selectedCategory, setSelectedCategory] = useState<string>("All Categories")
   const [products, isLoading] = useSearchProducts(debouncedSearchTerm)
   const [allCategories] = useGetCategories()
 
@@ -25,6 +26,8 @@ export function Products() {
               <UtilsBar
                 setSearchTerm={setSearchTerm}
                 allCategoryNames={allCategories.map((c) => c.name)}
+                selectedCategory={selectedCategory}
+                setSelectedCategory={setSelectedCategory}
               />
               <ProductList products={products} />
             </div>
