@@ -32,13 +32,21 @@ export function useSearchProducts(name: string): [Product[], boolean] {
   return [products, isLoading]
 }
 
-export function useFilterProducts(name: string, category: string): [Product[], boolean] {
+export function useFilterProducts(
+  name: string,
+  category: string,
+  minPrice: number,
+  maxPrice: number
+): [Product[], boolean] {
   if (category === "All Categories") {
     category = ""
   }
+  if (minPrice > maxPrice) {
+    throw new Error("Min price cannot be greater than max price")
+  }
   const { data: products, isLoading } = useQuery<Product[]>({
-    queryKey: getSearchQueryKey(QUERY_KEY, name, category),
-    queryFn: () => ProductService.filterBy(name, category),
+    queryKey: getSearchQueryKey(QUERY_KEY, name, category, minPrice, maxPrice),
+    queryFn: () => ProductService.filterBy(name, category, minPrice, maxPrice),
     initialData: []
   })
   return [products, isLoading]
