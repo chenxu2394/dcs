@@ -32,6 +32,18 @@ export function useSearchProducts(name: string): [Product[], boolean] {
   return [products, isLoading]
 }
 
+export function useFilterProducts(name: string, category: string): [Product[], boolean] {
+  if (category === "All Categories") {
+    category = ""
+  }
+  const { data: products, isLoading } = useQuery<Product[]>({
+    queryKey: getSearchQueryKey(QUERY_KEY, name, category),
+    queryFn: () => ProductService.filterBy(name, category),
+    initialData: []
+  })
+  return [products, isLoading]
+}
+
 export function useCreateProduct() {
   const queryClient = useQueryClient()
   const mutation = useMutation({
