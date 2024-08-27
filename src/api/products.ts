@@ -18,7 +18,7 @@ export default {
   },
 
   filterByName: async (name: string): Promise<Product[]> => {
-    const res = await api.get(`${RESOURCE}/search?q=${name}`)
+    const res = await api.get(`${RESOURCE}?q=${name}`)
     if (res.status !== 200) {
       throw new Error("Error fetching products")
     }
