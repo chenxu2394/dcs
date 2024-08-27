@@ -41,14 +41,14 @@ export function CategorySelector({
   }
 
   return (
-    <div className="flex items-center justify-center w-full max-w-sm space-x-2 rounded-lg border  dark:bg-gray-900 px-3.5 py-2">
+    <div className="flex justify-center w-full max-w-sm rounded-lg border  dark:bg-gray-900 py-1">
       <Popover open={open} onOpenChange={setOpen}>
         <PopoverTrigger asChild>
           <Button
             variant="outline"
             role="combobox"
             aria-expanded={open}
-            className="w-[200px] justify-between"
+            className="w-11/12 justify-between"
           >
             {value
               ? categories.find((category) => category.value === value)?.label
@@ -56,7 +56,7 @@ export function CategorySelector({
             <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
           </Button>
         </PopoverTrigger>
-        <PopoverContent className="w-[200px] p-0">
+        <PopoverContent className="p-0">
           <Command>
             <CommandInput placeholder="Search category..." />
             <CommandList>
