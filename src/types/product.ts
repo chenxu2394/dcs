@@ -1,10 +1,14 @@
 import { z } from "zod"
 
-const categorySchema = z.object({
+export const categorySchema = z.object({
   id: z.string(),
   name: z.string(),
   description: z.string()
 })
+
+export type Category = z.infer<typeof categorySchema>
+
+export const categoriesSchema = z.array(categorySchema)
 
 export const productSchema = z.object({
   id: z.string(),
