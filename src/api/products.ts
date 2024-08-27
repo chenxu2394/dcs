@@ -30,6 +30,19 @@ export default {
     return res.data
   },
 
+  filterBy: async (name: string, category: string): Promise<Product[]> => {
+    const res = await api.get(`${RESOURCE}?q=${name}&categories=${category}`)
+    if (res.status !== 200) {
+      throw new Error("Error fetching products")
+    }
+
+    const validatedProducts = productsSchema.safeParse(res.data)
+    if (!validatedProducts.success) {
+      return []
+    }
+    return res.data
+  },
+
   getOne: async (id: string): Promise<Product> => {
     const res = await api.get(`${RESOURCE}/${id}`)
     if (res.status !== 200) {
