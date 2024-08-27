@@ -9,7 +9,7 @@ interface Props {
 
 export function PriceSelector({ maxPrice, selectedPriceRange, setSelectedPriceRange }: Props) {
   return (
-    <div className="flex items-center space-x-4">
+    <div className="flex items-center w-full max-w-sm space-x-2 rounded-lg border  dark:bg-gray-900 px-3.5 py-2">
       <label className="text-sm">Price:</label>
       <Slider
         min={0}

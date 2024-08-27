@@ -23,7 +23,7 @@ export function UtilsBar({
   setSelectedPriceRange
 }: Props) {
   return (
-    <Card className="flex p-2, mb-2">
+    <Card className="grid p-2 mb-2 grid-cols-3 place-items-center">
       <SearchBox setSearchTerm={setSearchTerm} />
       <CategorySelector
         allCategoryNames={allCategoryNames}
