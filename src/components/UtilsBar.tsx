@@ -1,5 +1,5 @@
 import { SearchBox } from "./SearchBox"
-import { CategorySelection } from "./CategorySelection"
+import { CategorySelector } from "./CategorySelector"
 import { Card } from "./ui/card"
 
 interface Props {
@@ -18,7 +18,7 @@ export function UtilsBar({
   return (
     <Card className="flex p-2, mb-2">
       <SearchBox setSearchTerm={setSearchTerm} />
-      <CategorySelection
+      <CategorySelector
         allCategoryNames={allCategoryNames}
         selectedCategory={selectedCategory}
         setSelectedCategory={setSelectedCategory}

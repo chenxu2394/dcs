@@ -19,7 +19,7 @@ interface Props {
   setSelectedCategory: (category: string) => void
 }
 
-export function CategorySelection({
+export function CategorySelector({
   allCategoryNames,
   selectedCategory,
   setSelectedCategory
