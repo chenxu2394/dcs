@@ -5,6 +5,6 @@ export function getQueryKey(QUERY_KEY: string, id?: string) {
   return [QUERY_KEY]
 }
 
-export function getSearchQueryKey(QUERY_KEY: string, searchTerm: string) {
-  return [QUERY_KEY, "search", searchTerm]
+export function getSearchQueryKey(QUERY_KEY: string, searchTerm: string, category?: string) {
+  return [QUERY_KEY, "search", searchTerm + (category ? `-${category}` : "")]
 }
