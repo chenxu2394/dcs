@@ -30,8 +30,15 @@ export default {
     return res.data
   },
 
-  filterBy: async (name: string, category: string): Promise<Product[]> => {
-    const res = await api.get(`${RESOURCE}?q=${name}&categories=${category}`)
+  filterBy: async (
+    name: string,
+    category: string,
+    minPrice: number,
+    maxPrice: number
+  ): Promise<Product[]> => {
+    const res = await api.get(
+      `${RESOURCE}?q=${name}&categories=${category}&minPrice=${minPrice}&maxPrice=${maxPrice}`
+    )
     if (res.status !== 200) {
       throw new Error("Error fetching products")
     }
