@@ -10,7 +10,6 @@ export function Products() {
   const [searchTerm, setSearchTerm] = useState<string>("")
   const debouncedSearchTerm = useDebounce(searchTerm, 500)
   const [selectedCategory, setSelectedCategory] = useState<string>("All Categories")
-  const [products, isLoading] = useFilterProducts(debouncedSearchTerm, selectedCategory)
   const [allCategories] = useGetCategories()
 
   const [allProducts] = useGetProducts()
@@ -23,6 +22,15 @@ export function Products() {
 
   const [selectedPriceRange, setSelectedPriceRange] = useState<number[]>([0, maxPrice])
   const debouncedSelectedPriceRange = useDebounce(selectedPriceRange, 500)
+
+  const [priceLowerBound, priceUpperBound] = debouncedSelectedPriceRange
+
+  const [products, isLoading] = useFilterProducts(
+    debouncedSearchTerm,
+    selectedCategory,
+    priceLowerBound,
+    priceUpperBound
+  )
 
   return (
     <div className="p-2">
