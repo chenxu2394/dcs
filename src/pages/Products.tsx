@@ -3,12 +3,12 @@ import { ProductList } from "@/components/ProductList"
 import { useSearchProducts } from "@/features/use-products"
 import { SearchBox } from "@/components/SearchBox"
 import { useState } from "react"
+import { useDebounce } from "@/features/useDebounce"
 
 export function Products() {
   const [searchTerm, setSearchTerm] = useState<string>("")
-  const [products, isLoading] = useSearchProducts(searchTerm)
-
-  console.log("%csrc/pages/Products.tsx:11 searchTerm", "color: #007acc;", searchTerm)
+  const debouncedSearchTerm = useDebounce(searchTerm, 500)
+  const [products, isLoading] = useSearchProducts(debouncedSearchTerm)
 
   return (
     <div className="p-2">
@@ -20,7 +20,7 @@ export function Products() {
             <p>Loading...</p>
           ) : (
             <div>
-              <SearchBox searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
+              <SearchBox setSearchTerm={setSearchTerm} />
               <ProductList products={products} />
             </div>
           )
