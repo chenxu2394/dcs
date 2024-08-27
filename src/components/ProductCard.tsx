@@ -1,5 +1,4 @@
 import { Card, CardDescription, CardFooter, CardHeader, CardTitle } from "./ui/card"
-import { Button } from "./ui/button"
 import { Product } from "../types"
 import { useNavigate } from "react-router-dom"
 
@@ -18,6 +17,7 @@ export function ProductCard({ product }: ProductCardProps) {
       <CardHeader>
         <CardTitle>{product.name}</CardTitle>
         <CardDescription>{product.description}</CardDescription>
+        <CardFooter>€{product.price}</CardFooter>
       </CardHeader>
     </Card>
   )
