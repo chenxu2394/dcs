@@ -1,19 +1,26 @@
 import { SearchBox } from "./SearchBox"
 import { CategorySelector } from "./CategorySelector"
 import { Card } from "./ui/card"
+import { PriceSelector } from "./PriceSelector"
 
 interface Props {
   setSearchTerm: (searchTerm: string) => void
   allCategoryNames: string[]
   selectedCategory: string
   setSelectedCategory: (category: string) => void
+  maxPrice: number
+  selectedPriceRange: number[]
+  setSelectedPriceRange: (range: number[]) => void
 }
 
 export function UtilsBar({
   setSearchTerm,
   allCategoryNames,
   selectedCategory,
-  setSelectedCategory
+  setSelectedCategory,
+  maxPrice,
+  selectedPriceRange,
+  setSelectedPriceRange
 }: Props) {
   return (
     <Card className="flex p-2, mb-2">
@@ -22,6 +29,11 @@ export function UtilsBar({
         allCategoryNames={allCategoryNames}
         selectedCategory={selectedCategory}
         setSelectedCategory={setSelectedCategory}
+      />
+      <PriceSelector
+        maxPrice={maxPrice}
+        selectedPriceRange={selectedPriceRange}
+        setSelectedPriceRange={setSelectedPriceRange}
       />
     </Card>
   )
