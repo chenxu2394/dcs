@@ -1,14 +1,16 @@
 import { Can } from "@/components/Can"
 import { ProductList } from "@/components/ProductList"
 import { useSearchProducts } from "@/features/use-products"
-import { SearchBox } from "@/components/SearchBox"
-import { useState } from "react"
+import { UtilsBar } from "@/components/UtilsBar"
+import { useEffect, useState } from "react"
 import { useDebounce } from "@/features/useDebounce"
+import { useGetCategories } from "@/features/use-categories"
 
 export function Products() {
   const [searchTerm, setSearchTerm] = useState<string>("")
   const debouncedSearchTerm = useDebounce(searchTerm, 500)
   const [products, isLoading] = useSearchProducts(debouncedSearchTerm)
+  const [allCategories] = useGetCategories()
 
   return (
     <div className="p-2">
@@ -20,7 +22,10 @@ export function Products() {
             <p>Loading...</p>
           ) : (
             <div>
-              <SearchBox setSearchTerm={setSearchTerm} />
+              <UtilsBar
+                setSearchTerm={setSearchTerm}
+                allCategoryNames={allCategories.map((c) => c.name)}
+              />
               <ProductList products={products} />
             </div>
           )
