@@ -25,14 +25,20 @@ export function CategorySelection({
   setSelectedCategory
 }: Props) {
   const [open, setOpen] = React.useState(false)
-  const [value, setValue] = React.useState("")
+  const [value, setValue] = React.useState(selectedCategory)
 
-  const categories = [{ value: "All Categories", label: "All Categories" }].concat(
-    allCategoryNames.map((categoryName) => ({
-      value: categoryName,
-      label: categoryName
-    }))
-  )
+  const categories = allCategoryNames.map((categoryName) => ({
+    value: categoryName,
+    label: categoryName
+  }))
+
+  categories.unshift({ value: "All Categories", label: "All Categories" })
+
+  const handleSelect = (currentValue: string) => {
+    setValue(currentValue)
+    setSelectedCategory(currentValue)
+    setOpen(false)
+  }
 
   return (
     <Popover open={open} onOpenChange={setOpen}>
@@ -43,7 +49,7 @@ export function CategorySelection({
           aria-expanded={open}
           className="w-[200px] justify-between"
         >
-          {value && categories.some((category) => category.value === value)
+          {value
             ? categories.find((category) => category.value === value)?.label
             : "Select category..."}
           <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
@@ -59,10 +65,7 @@ export function CategorySelection({
                 <CommandItem
                   key={category.value}
                   value={category.value}
-                  onSelect={(currentValue) => {
-                    setValue(currentValue === value ? "" : currentValue)
-                    setOpen(false)
-                  }}
+                  onSelect={() => handleSelect(category.value)}
                 >
                   <Check
                     className={cn(
