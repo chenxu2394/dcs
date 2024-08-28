@@ -8,7 +8,7 @@ import { useGetCategories } from "@/features/use-categories"
 
 export function Products() {
   const [searchTerm, setSearchTerm] = useState<string>("")
-  const debouncedSearchTerm = useDebounce(searchTerm, 500)
+  const debouncedSearchTerm = useDebounce(searchTerm, 200)
   const [selectedCategory, setSelectedCategory] = useState<string>("All Categories")
   const [allCategories] = useGetCategories()
 
@@ -21,7 +21,7 @@ export function Products() {
   }, [allProducts])
 
   const [selectedPriceRange, setSelectedPriceRange] = useState<number[]>([0, maxPrice])
-  const debouncedSelectedPriceRange = useDebounce(selectedPriceRange, 500)
+  const debouncedSelectedPriceRange = useDebounce(selectedPriceRange, 200)
 
   const [priceLowerBound, priceUpperBound] = debouncedSelectedPriceRange
 
