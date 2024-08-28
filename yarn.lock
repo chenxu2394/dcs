@@ -1112,10 +1112,10 @@
   resolved "https://registry.yarnpkg.com/@remix-run/router/-/router-1.19.1.tgz#984771bfd1de2715f42394c87fb716c1349e014f"
   integrity sha512-S45oynt/WH19bHbIXjtli6QmwNYvaz+vtnubvNpNDvUOoA/OWh6j1OikIP3G+v5GHdxyC6EXoChG3HgYGEUfcg==
 
-"@tanstack/query-core@5.35.5":
-  version "5.35.5"
-  resolved "https://registry.yarnpkg.com/@tanstack/query-core/-/query-core-5.35.5.tgz#7b4100dc9cc7fee314b8a1bcbf502a236d43ffe3"
-  integrity sha512-OMWvlEqG01RfGj+XZb/piDzPp0eZkkHWSDHt2LvE/fd1zWburP/xwm0ghk6Iv8cuPlP+ACFkZviKXK0OVt6lhg==
+"@tanstack/query-core@5.52.0":
+  version "5.52.0"
+  resolved "https://registry.yarnpkg.com/@tanstack/query-core/-/query-core-5.52.0.tgz#44070b2d6eb58c3a5ce2788471d842e932294a87"
+  integrity sha512-U1DOEgltjUwalN6uWYTewSnA14b+tE7lSylOiASKCAO61ENJeCq9VVD/TXHA6O5u9+6v5+UgGYBSccTKDoyMqw==
 
 "@tanstack/query-devtools@5.51.16":
   version "5.51.16"
@@ -1129,12 +1129,12 @@
   dependencies:
     "@tanstack/query-devtools" "5.51.16"
 
-"@tanstack/react-query@^5.35.5":
-  version "5.35.5"
-  resolved "https://registry.yarnpkg.com/@tanstack/react-query/-/react-query-5.35.5.tgz#d41a087d58f42418824fa04aaca00ba93c99075c"
-  integrity sha512-sppX7L+PVn5GBV3In6zzj0zcKfnZRKhXbX1MfIfKo1OjIq2GMaopvAFOP0x1bRYTUk2ikrdYcQYOozX7PWkb8A==
+"@tanstack/react-query@5.52.1":
+  version "5.52.1"
+  resolved "https://registry.yarnpkg.com/@tanstack/react-query/-/react-query-5.52.1.tgz#d454e2bb86ab21621de016c7044514d6412db7ee"
+  integrity sha512-soyn4dNIUZ8US8NaPVXv06gkZFHaZnPfKWPDjRJjFRW3Y7WZ0jx72eT6zhw3VQlkMPysmXye8l35ewPHspKgbQ==
   dependencies:
-    "@tanstack/query-core" "5.35.5"
+    "@tanstack/query-core" "5.52.0"
 
 "@types/json-schema@^7.0.9":
   version "7.0.11"
@@ -1494,9 +1494,9 @@ camelcase-css@^2.0.1:
   integrity sha512-QOSvevhslijgYwRx6Rv7zKdMF8lbRmx+uQGx2+vDc+KI/eBnsy9kit5aj23AgGu3pa4t9AgwbnXWqS+iOY+2aA==
 
 caniuse-lite@^1.0.30001449, caniuse-lite@^1.0.30001464:
-  version "1.0.30001467"
-  resolved "https://registry.yarnpkg.com/caniuse-lite/-/caniuse-lite-1.0.30001467.tgz#1afc9c16ed61f50dd87139da87ca43a3e0051c77"
-  integrity sha512-cEdN/5e+RPikvl9AHm4uuLXxeCNq8rFsQ+lPHTfe/OtypP3WwnVVbjn+6uBV7PaFL6xUFzTh+sSCOz1rKhcO+Q==
+  version "1.0.30001653"
+  resolved "https://registry.npmjs.org/caniuse-lite/-/caniuse-lite-1.0.30001653.tgz"
+  integrity sha512-XGWQVB8wFQ2+9NZwZ10GxTYC5hk0Fa+q8cSkr0tgvMhYhMHP/QC+WTgrePMDBWiWc/pV+1ik82Al20XOK25Gcw==
 
 chalk@^2.0.0:
   version "2.4.2"
