@@ -5,11 +5,15 @@ import CategoryService from "@/api/categories"
 
 const QUERY_KEY = "categories"
 
-export function useGetCategories(): [Category[], boolean] {
-  const { data: categories, isLoading } = useQuery<Category[]>({
+export function useGetCategories(): [Category[], boolean, Error | null] {
+  const {
+    data: categories,
+    isLoading,
+    error
+  } = useQuery<Category[]>({
     queryKey: getQueryKey(QUERY_KEY),
     queryFn: CategoryService.getAll,
     initialData: []
   })
-  return [categories, isLoading]
+  return [categories, isLoading, error]
 }

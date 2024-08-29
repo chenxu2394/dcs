@@ -25,12 +25,16 @@ export function Products() {
   const debouncedSelectedPriceRange = useDebounce(selectedPriceRange, 200)
   const [priceLowerBound, priceUpperBound] = debouncedSelectedPriceRange
 
-  const [products, isLoading] = useFilterProducts(
+  const [products, isLoading, error] = useFilterProducts(
     debouncedSearchTerm,
     selectedCategory,
     priceLowerBound,
     priceUpperBound
   )
+
+  if (error) {
+    return <p>Error: {error.message}</p>
+  }
 
   return (
     <div className="p-2">
