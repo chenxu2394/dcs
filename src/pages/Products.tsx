@@ -13,16 +13,16 @@ export function Products() {
   const [allCategories] = useGetCategories()
 
   const [allProducts] = useGetProducts()
-  const [maxPrice, setMaxPrice] = useState(0)
-  useEffect(() => {
-    const newMaxPrice = allProducts.reduce((acc, product) => Math.max(acc, product.price), 0)
-    setMaxPrice(newMaxPrice)
-    setSelectedPriceRange([0, newMaxPrice])
-  }, [allProducts])
-
+  const maxPrice = allProducts.reduce((acc, product) => Math.max(acc, product.price), 0)
   const [selectedPriceRange, setSelectedPriceRange] = useState<number[]>([0, maxPrice])
-  const debouncedSelectedPriceRange = useDebounce(selectedPriceRange, 200)
 
+  useEffect(() => {
+    if (selectedPriceRange[1] !== maxPrice) {
+      setSelectedPriceRange([selectedPriceRange[0], maxPrice])
+    }
+  }, [maxPrice])
+
+  const debouncedSelectedPriceRange = useDebounce(selectedPriceRange, 200)
   const [priceLowerBound, priceUpperBound] = debouncedSelectedPriceRange
 
   const [products, isLoading] = useFilterProducts(
