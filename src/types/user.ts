@@ -28,3 +28,5 @@ export const decodedTokenSchema = z.object({
 })
 
 export type DecodedToken = z.infer<typeof decodedTokenSchema>
+
+export const tokenSchema = z.string().startsWith("ey")

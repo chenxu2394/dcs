@@ -7,6 +7,7 @@ import { RouterProvider } from "react-router-dom"
 import router from "./routers"
 import { ThemeProvider } from "./components/theme-provider"
 import { UserProvider } from "./providers/user-provider"
+import { Toaster } from "./components/ui/toaster"
 
 const queryClient = new QueryClient()
 
@@ -16,6 +17,7 @@ ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
       <UserProvider>
         <RouterProvider router={router} />
         <ReactQueryDevtools initialIsOpen={false} />
+        <Toaster />
       </UserProvider>
     </QueryClientProvider>
   </ThemeProvider>
