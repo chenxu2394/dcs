@@ -9,7 +9,7 @@ export function Dashboard() {
     name: "Jeans",
     description: "This is a new product",
     quantity: 10,
-    price: 100,
+    price: 100_000,
     discount: 0,
     categoryId: "de8a2af1-86b3-4471-a1dd-e52ab8d21f9c"
   })
