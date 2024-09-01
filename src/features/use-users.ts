@@ -27,7 +27,7 @@ export function useLogin() {
   const mutation = useMutation({
     mutationFn: (credentials: UserLoginType) => UserService.login(credentials),
     onSuccess: (token) => {
-      console.log(token)
+      // console.log(token)
       const isValid = tokenSchema.safeParse(token)
       if (isValid.success) {
         saveTokenAndDecodedToken(token)
