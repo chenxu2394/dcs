@@ -1,4 +1,4 @@
-export type Role = "ADMIN" | "USER"
+import { UserRoles } from "@/types"
 
 export type RoleControl = {
   [key: string]: {
@@ -7,7 +7,7 @@ export type RoleControl = {
   }
 }
 
-export type PermissionCategory = keyof RoleControl[Role]
+export type PermissionCategory = keyof RoleControl[UserRoles]
 
 type Page = "HOME" | "DASHBOARD"
 type Resourse = "PRODUCT" | "USER"
@@ -22,6 +22,10 @@ export const RBAC_ROLES: RoleControl = {
     actions: ["PRODUCT:GET", "PRODUCT:REMOVE", "PRODUCT:ADD"]
   },
   USER: {
+    views: ["HOME:VIEW"],
+    actions: ["PRODUCT:GET"]
+  },
+  PUBLIC: {
     views: ["HOME:VIEW"],
     actions: ["PRODUCT:GET"]
   }
