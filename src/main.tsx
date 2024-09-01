@@ -6,7 +6,6 @@ import { ReactQueryDevtools } from "@tanstack/react-query-devtools"
 import { RouterProvider } from "react-router-dom"
 import router from "./routers"
 import { ThemeProvider } from "./components/theme-provider"
-import { UserProvider } from "./providers/user-provider"
 import { Toaster } from "./components/ui/toaster"
 import { TokenAndDecodedTokenProvider } from "./providers/token-provider"
 
@@ -16,11 +15,9 @@ ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
     <QueryClientProvider client={queryClient}>
       <TokenAndDecodedTokenProvider>
-        {/* <UserProvider> */}
         <RouterProvider router={router} />
         <ReactQueryDevtools initialIsOpen={false} />
         <Toaster />
-        {/* </UserProvider> */}
       </TokenAndDecodedTokenProvider>
     </QueryClientProvider>
   </ThemeProvider>
