@@ -45,7 +45,7 @@ export function Dashboard() {
           <TableRow>
             <TableHead>Name</TableHead>
             <TableHead>Description</TableHead>
-            <TableHead>Price</TableHead>
+            <TableHead>Price(€)</TableHead>
             {/* <TableHead>Actions</TableHead> */}
           </TableRow>
         </TableHeader>
