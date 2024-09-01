@@ -1,23 +1,15 @@
-import { ChangeEvent, FormEvent, useContext, useEffect, useState } from "react"
+import { ChangeEvent, FormEvent, useState } from "react"
 
 import { Input } from "../components/ui/input"
 import { Button } from "../components/ui/button"
-import { useToast } from "@/components/ui/use-toast"
 
-import api from "../api"
-import { useNavigate } from "react-router-dom"
-import { tokenSchema } from "@/types"
-import { TokenAndDecodedTokenContext } from "@/providers/token-provider"
 import { useLogin } from "@/features/use-users"
 
 export function LogIn() {
-  const { toast } = useToast()
-  const navigate = useNavigate()
   const [credentials, setCredentials] = useState({
     email: "",
     password: ""
   })
-  const { saveTokenAndDecodedToken } = useContext(TokenAndDecodedTokenContext)
   const mutation = useLogin()
 
   const handleLogin = async (e: FormEvent) => {
