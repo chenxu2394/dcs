@@ -1,4 +1,4 @@
-import { ChangeEvent, FormEvent, useEffect, useState } from "react"
+import { ChangeEvent, FormEvent, useContext, useEffect, useState } from "react"
 
 import { Input } from "../components/ui/input"
 import { Button } from "../components/ui/button"
@@ -7,6 +7,8 @@ import { useToast } from "@/components/ui/use-toast"
 import api from "../api"
 import { useNavigate } from "react-router-dom"
 import { tokenSchema } from "@/types"
+import { TokenAndDecodedTokenContext } from "@/providers/token-provider"
+import { useLogin } from "@/features/use-users"
 
 export function LogIn() {
   const { toast } = useToast()
@@ -15,27 +17,12 @@ export function LogIn() {
     email: "",
     password: ""
   })
+  const { saveTokenAndDecodedToken } = useContext(TokenAndDecodedTokenContext)
+  const mutation = useLogin()
 
   const handleLogin = async (e: FormEvent) => {
     e.preventDefault()
-    console.log(credentials)
-
-    const res = await api.post("/users/login", credentials)
-    console.log(res)
-    const token = res.data
-
-    const isValid = tokenSchema.safeParse(token)
-    if (isValid.success) {
-      navigate("/")
-      localStorage.setItem("token", token)
-      toast({
-        description: "Welcome back, bro/sis!"
-      })
-    } else {
-      toast({
-        description: "Invalid credentials"
-      })
-    }
+    mutation.mutate(credentials)
   }
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
