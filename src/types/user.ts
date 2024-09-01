@@ -12,10 +12,20 @@ export interface UsersState {
   loggedInUser: UserLoginType | null
 }
 
+export enum UserRoles {
+  ADMIN = "ADMIN",
+  USER = "USER",
+  PUBLIC = "PUBLIC"
+}
+
+const userRoleSchema = z.nativeEnum(UserRoles)
+
+export type UserRole = z.infer<typeof userRoleSchema>
+
 export const retrievedUserDetailSchema = z.object({
   id: z.string(),
   email: z.string().email(),
-  userRole: z.string()
+  userRole: userRoleSchema
 })
 
 export type RetrievedUserDetail = z.infer<typeof retrievedUserDetailSchema>
@@ -23,6 +33,7 @@ export type RetrievedUserDetail = z.infer<typeof retrievedUserDetailSchema>
 export const decodedTokenSchema = z.object({
   sub: z.string(),
   user_id: z.string(),
+  user_role: userRoleSchema,
   iat: z.number(),
   exp: z.number()
 })
@@ -30,3 +41,12 @@ export const decodedTokenSchema = z.object({
 export type DecodedToken = z.infer<typeof decodedTokenSchema>
 
 export const tokenSchema = z.string().startsWith("ey")
+
+export type Token = z.infer<typeof tokenSchema>
+
+export const tokenAndDecodedTokenSchema = z.object({
+  token: tokenSchema,
+  decodedToken: decodedTokenSchema
+})
+
+export type TokenAndDecodedToken = z.infer<typeof tokenAndDecodedTokenSchema>
