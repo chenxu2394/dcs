@@ -3,7 +3,7 @@ import { useCreateProduct } from "@/features/use-products"
 import { ProductCreate } from "@/types"
 import { useState } from "react"
 import { Button } from "@/components/ui/button"
-import { useGetProducts } from "@/features/use-products"
+import { useGetProducts, useDeleteProduct } from "@/features/use-products"
 import {
   Table,
   TableBody,
@@ -27,6 +27,7 @@ export function Dashboard() {
   const addProduct = useCreateProduct()
 
   const [products, isLoading] = useGetProducts()
+  const productDelete = useDeleteProduct()
 
   if (isLoading) {
     return <div>Loading...</div>
@@ -56,7 +57,7 @@ export function Dashboard() {
               <TableCell>{product.description}</TableCell>
               <TableCell>{product.price}</TableCell>
               <TableCell>
-                {/* <Button
+                <Button
                   variant="destructive"
                   onClick={() => {
                     productDelete.mutate(product.id)
@@ -64,7 +65,7 @@ export function Dashboard() {
                 >
                   Delete
                 </Button>
-                <UpdateDialog product={product} /> */}
+                {/*<UpdateDialog product={product} /> */}
               </TableCell>
             </TableRow>
           ))}
