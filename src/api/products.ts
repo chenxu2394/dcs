@@ -77,5 +77,20 @@ export default {
     }
 
     return res.data
+  },
+
+  deleteOne: async (id: string) => {
+    const token = localStorage.getItem("token")
+    const res = await api.delete(`${RESOURCE}/${id}`)
+    // const res = await api.delete(`${RESOURCE}/${id}`, {
+    //   headers: {
+    //     Authorization: `Bearer ${token}`
+    //   }
+    // })
+
+    console.log("res:", res)
+    if (res.status !== 204) {
+      throw Error("somehting went wrong")
+    }
   }
 }

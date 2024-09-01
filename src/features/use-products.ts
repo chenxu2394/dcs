@@ -73,8 +73,30 @@ export function useCreateProduct() {
   const mutation = useMutation({
     mutationFn: (product: ProductCreate) => ProductService.createOne(product),
     onSuccess: () => {
+      console.log(getQueryKey(QUERY_KEY))
       queryClient.invalidateQueries({ queryKey: getQueryKey(QUERY_KEY) })
+    },
+    onError: (error) => {
+      console.error(error)
     }
   })
+  return mutation
+}
+
+export function useDeleteProduct() {
+  const queryClient = useQueryClient()
+
+  const mutation = useMutation({
+    mutationFn: (productId: string) => {
+      return ProductService.deleteOne(productId)
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: getQueryKey(QUERY_KEY) })
+    },
+    onError: (error) => {
+      console.error(error)
+    }
+  })
+
   return mutation
 }
