@@ -1,13 +1,16 @@
+import { useContext } from "react"
 import {
-  Role,
+  // UserRoles,
   ResourcePermission,
   PagePermission,
   PermissionCategory,
   RBAC_ROLES
 } from "../lib/access-control"
+import { UserRoles } from "@/types"
+import { TokenAndDecodedTokenContext } from "@/providers/token-provider"
 
 const checkPermission = (
-  role: Role,
+  role: UserRoles,
   permission: ResourcePermission | PagePermission,
   permissionType: PermissionCategory
 ): boolean => {
@@ -58,8 +61,13 @@ type CanProp = {
 }
 
 export const Can = ({ permission, permissionType, yes, no = () => null }: CanProp) => {
-  //TODO: change this to be dynamic based on what the token has
-  const USER_ROLE = "USER"
+  const context = useContext(TokenAndDecodedTokenContext)
 
-  return checkPermission(USER_ROLE, permission, permissionType) ? yes() : no()
+  let userRole: UserRoles = UserRoles.PUBLIC
+
+  if (context && context.tokenAndDecodedToken) {
+    userRole = context.tokenAndDecodedToken.decodedToken.user_role
+  }
+
+  return checkPermission(userRole, permission, permissionType) ? yes() : no()
 }
