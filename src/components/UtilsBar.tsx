@@ -25,11 +25,14 @@ export function UtilsBar({
   return (
     <Card className="grid p-2 mb-2 grid-cols-3 place-items-center">
       <SearchBox setSearchTerm={setSearchTerm} />
-      <CategorySelector
-        allCategoryNames={allCategoryNames}
-        selectedCategory={selectedCategory}
-        setSelectedCategory={setSelectedCategory}
-      />
+      <div className="flex justify-center w-full max-w-sm rounded-lg border  dark:bg-gray-900 p-1">
+        <CategorySelector
+          allCategoryNames={allCategoryNames}
+          selectedCategory={selectedCategory}
+          setSelectedCategory={setSelectedCategory}
+          allCategories={true}
+        />
+      </div>
       <PriceSelector
         maxPrice={maxPrice}
         selectedPriceRange={selectedPriceRange}
