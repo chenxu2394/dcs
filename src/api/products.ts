@@ -80,16 +80,30 @@ export default {
   },
 
   deleteOne: async (id: string) => {
-    const token = localStorage.getItem("token")
+    // const retrieved = localStorage.getItem("tokenAndDecodedToken")
+    // const parsed = retrieved ? JSON.parse(retrieved) : null
+    // const token = parsed ? parsed.token : null
+    // console.log(token)
+
     const res = await api.delete(`${RESOURCE}/${id}`)
+
+    //TODO: Delete with authorization
     // const res = await api.delete(`${RESOURCE}/${id}`, {
     //   headers: {
     //     Authorization: `Bearer ${token}`
     //   }
     // })
 
-    console.log("res:", res)
     if (res.status !== 204) {
+      throw Error("somehting went wrong")
+    }
+  },
+
+  updateOne: async (product: Product) => {
+    //TODO: Update with authorization
+    const res = await api.put(RESOURCE, product)
+
+    if (res.status !== 200) {
       throw Error("somehting went wrong")
     }
   }

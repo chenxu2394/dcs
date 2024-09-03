@@ -100,3 +100,21 @@ export function useDeleteProduct() {
 
   return mutation
 }
+
+export function useUpdateProduct() {
+  const queryClient = useQueryClient()
+
+  const mutation = useMutation({
+    mutationFn: (product: Product) => {
+      return ProductService.updateOne(product)
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: getQueryKey(QUERY_KEY) })
+    },
+    onError: (error) => {
+      console.error(error)
+    }
+  })
+
+  return mutation
+}

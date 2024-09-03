@@ -14,6 +14,8 @@ import {
   TableHeader,
   TableRow
 } from "@/components/ui/table"
+import { Trash2Icon } from "lucide-react"
+import { UpdateDialog } from "@/components/UpdateDialog"
 
 export function Dashboard() {
   const [newProduct, setNewProduct] = useState<ProductCreate>({
@@ -47,7 +49,9 @@ export function Dashboard() {
             <TableHead>Name</TableHead>
             <TableHead>Description</TableHead>
             <TableHead>Price(€)</TableHead>
-            {/* <TableHead>Actions</TableHead> */}
+            <TableHead>Discount(%)</TableHead>
+            {/* <TableHead>Category </TableHead> */}
+            <TableHead>Actions</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
@@ -56,16 +60,18 @@ export function Dashboard() {
               <TableCell className="font-medium">{product.name}</TableCell>
               <TableCell>{product.description}</TableCell>
               <TableCell>{product.price}</TableCell>
-              <TableCell>
+              <TableCell>{product.discount}</TableCell>
+              {/* <TableCell>{product.category.name}</TableCell> */}
+              <TableCell className="flex gap-1">
                 <Button
-                  variant="destructive"
+                  // variant="destructive"
                   onClick={() => {
                     productDelete.mutate(product.id)
                   }}
                 >
-                  Delete
+                  <Trash2Icon />
                 </Button>
-                {/*<UpdateDialog product={product} /> */}
+                <UpdateDialog product={product} />
               </TableCell>
             </TableRow>
           ))}
