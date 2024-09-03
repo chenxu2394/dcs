@@ -1,4 +1,4 @@
-import { Product, ProductCreate, productSchema, productsSchema } from "@/types"
+import { Product, ProductCreate, ProductUpdate, productSchema, productsSchema } from "@/types"
 import api from "."
 
 const RESOURCE = "/products"
@@ -99,7 +99,7 @@ export default {
     }
   },
 
-  updateOne: async (product: Product) => {
+  updateOne: async (product: ProductUpdate) => {
     //TODO: Update with authorization
     const res = await api.put(RESOURCE, product)
 

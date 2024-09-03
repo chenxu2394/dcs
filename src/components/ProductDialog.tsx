@@ -20,8 +20,9 @@ import { useUpdateProduct } from "../features/use-products"
 type DialogProps = {
   product: Product
   allCategories: Category[]
+  // productUpdate: ReturnType<typeof useUpdateProduct>
 }
-export function UpdateDialog({ product, allCategories }: DialogProps) {
+export function ProductDialog({ product, allCategories }: DialogProps) {
   const [updatedProduct, setUpdatedProduct] = useState(product)
   const [selectedCategory, setSelectedCategory] = useState<string>(product.category.name)
   const productUpdate = useUpdateProduct()
@@ -36,10 +37,21 @@ export function UpdateDialog({ product, allCategories }: DialogProps) {
 
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault()
-    const toBeUpdated = {
-      ...updatedProduct,
-      categoryId: allCategories.find((c) => c.name === selectedCategory)?.id
+    const selectedCategoryObj = allCategories.find((c) => c.name === selectedCategory)
+
+    if (!selectedCategoryObj) {
+      // Handle the case where the category is not found
+      console.error("Selected category not found")
+      return
     }
+
+    const { category, ...rest } = updatedProduct
+
+    const toBeUpdated = {
+      ...rest,
+      categoryId: selectedCategoryObj.id
+    }
+
     productUpdate.mutate(toBeUpdated)
   }
 

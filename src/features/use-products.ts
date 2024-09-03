@@ -1,5 +1,5 @@
 import ProductService from "@/api/products"
-import { Product, ProductCreate } from "@/types"
+import { Product, ProductCreate, ProductUpdate } from "@/types"
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 import { getQueryKey, getSearchQueryKey } from "./utils"
 
@@ -105,7 +105,7 @@ export function useUpdateProduct() {
   const queryClient = useQueryClient()
 
   const mutation = useMutation({
-    mutationFn: (product: Product) => {
+    mutationFn: (product: ProductUpdate) => {
       return ProductService.updateOne(product)
     },
     onSuccess: () => {

@@ -32,7 +32,14 @@ export const productCreateSchema = productSchema
 
 export type ProductCreate = z.infer<typeof productCreateSchema>
 
-export const productUpdateSchema = productSchema.partial()
+export const productUpdateSchema = productSchema
+  .omit({
+    category: true
+  })
+  .extend({
+    categoryId: z.string()
+  })
+
 export type ProductUpdate = z.infer<typeof productUpdateSchema>
 
 export const productsSchema = z.array(productSchema)

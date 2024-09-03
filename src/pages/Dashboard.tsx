@@ -1,9 +1,13 @@
 import { Can } from "@/components/Can"
-import { useCreateProduct } from "@/features/use-products"
 import { ProductCreate } from "@/types"
 import { useState } from "react"
 import { Button } from "@/components/ui/button"
-import { useGetProducts, useDeleteProduct } from "@/features/use-products"
+import {
+  useGetProducts,
+  useDeleteProduct,
+  useCreateProduct,
+  useUpdateProduct
+} from "@/features/use-products"
 import { useGetCategories } from "@/features/use-categories"
 import {
   Table,
@@ -16,7 +20,7 @@ import {
   TableRow
 } from "@/components/ui/table"
 import { Trash2Icon } from "lucide-react"
-import { UpdateDialog } from "@/components/UpdateDialog"
+import { ProductDialog } from "@/components/ProductDialog"
 
 export function Dashboard() {
   const [newProduct, setNewProduct] = useState<ProductCreate>({
@@ -73,7 +77,7 @@ export function Dashboard() {
                 >
                   <Trash2Icon />
                 </Button>
-                <UpdateDialog product={product} allCategories={allCategories} />
+                <ProductDialog product={product} allCategories={allCategories} />
               </TableCell>
             </TableRow>
           ))}
