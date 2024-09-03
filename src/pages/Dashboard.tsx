@@ -4,6 +4,7 @@ import { ProductCreate } from "@/types"
 import { useState } from "react"
 import { Button } from "@/components/ui/button"
 import { useGetProducts, useDeleteProduct } from "@/features/use-products"
+import { useGetCategories } from "@/features/use-categories"
 import {
   Table,
   TableBody,
@@ -30,6 +31,7 @@ export function Dashboard() {
 
   const [products, isLoading] = useGetProducts()
   const productDelete = useDeleteProduct()
+  const [categories] = useGetCategories()
 
   if (isLoading) {
     return <div>Loading...</div>
@@ -50,7 +52,7 @@ export function Dashboard() {
             <TableHead>Description</TableHead>
             <TableHead>Price(€)</TableHead>
             <TableHead>Discount(%)</TableHead>
-            {/* <TableHead>Category </TableHead> */}
+            <TableHead>Category </TableHead>
             <TableHead>Actions</TableHead>
           </TableRow>
         </TableHeader>
@@ -61,7 +63,7 @@ export function Dashboard() {
               <TableCell>{product.description}</TableCell>
               <TableCell>{product.price}</TableCell>
               <TableCell>{product.discount}</TableCell>
-              {/* <TableCell>{product.category.name}</TableCell> */}
+              <TableCell>{product.category.name}</TableCell>
               <TableCell className="flex gap-1">
                 <Button
                   // variant="destructive"
@@ -71,7 +73,7 @@ export function Dashboard() {
                 >
                   <Trash2Icon />
                 </Button>
-                <UpdateDialog product={product} />
+                <UpdateDialog product={product} categories={categories} />
               </TableCell>
             </TableRow>
           ))}

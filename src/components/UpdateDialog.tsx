@@ -9,18 +9,21 @@ import {
   DialogTrigger,
   DialogClose
 } from "@/components/ui/dialog"
+import { CategorySelector } from "./CategorySelector"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import { Product } from "../types"
+import { Category, Product } from "../types"
 import { ChangeEvent, FormEvent, useState } from "react"
 import { EditIcon } from "lucide-react"
 import { useUpdateProduct } from "../features/use-products"
 
 type DialogProps = {
   product: Product
+  categories: Category[]
 }
-export function UpdateDialog({ product }: DialogProps) {
+export function UpdateDialog({ product, categories }: DialogProps) {
   const [updatedProduct, setUpdatedProduct] = useState(product)
+  const [selectedCategory, setSelectedCategory] = useState<string>(product.category.name)
   const productUpdate = useUpdateProduct()
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -35,7 +38,7 @@ export function UpdateDialog({ product }: DialogProps) {
     e.preventDefault()
     const toBeUpdated = {
       ...updatedProduct,
-      categoryId: updatedProduct.category.id
+      categoryId: categories.find((c) => c.name === selectedCategory)?.id
     }
     productUpdate.mutate(toBeUpdated)
   }
@@ -69,7 +72,7 @@ export function UpdateDialog({ product }: DialogProps) {
               />
             </div>
             <div className="grid grid-cols-4 items-center gap-4">
-              <Label htmlFor="username" className="text-right">
+              <Label htmlFor="description" className="text-right">
                 Description
               </Label>
               <Input
@@ -105,6 +108,17 @@ export function UpdateDialog({ product }: DialogProps) {
                 className="col-span-3"
                 onChange={handleChange}
               />
+            </div>
+            <div className="grid grid-cols-4 items-center gap-4">
+              <Label className="text-right">Category</Label>
+              <div id="category" className="col-span-3">
+                <CategorySelector
+                  allCategoryNames={categories.map((c) => c.name)}
+                  selectedCategory={selectedCategory}
+                  setSelectedCategory={setSelectedCategory}
+                  allCategories={false}
+                />
+              </div>
             </div>
           </div>
           <DialogFooter>
