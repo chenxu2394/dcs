@@ -19,9 +19,9 @@ import { useUpdateProduct } from "../features/use-products"
 
 type DialogProps = {
   product: Product
-  categories: Category[]
+  allCategories: Category[]
 }
-export function UpdateDialog({ product, categories }: DialogProps) {
+export function UpdateDialog({ product, allCategories }: DialogProps) {
   const [updatedProduct, setUpdatedProduct] = useState(product)
   const [selectedCategory, setSelectedCategory] = useState<string>(product.category.name)
   const productUpdate = useUpdateProduct()
@@ -38,7 +38,7 @@ export function UpdateDialog({ product, categories }: DialogProps) {
     e.preventDefault()
     const toBeUpdated = {
       ...updatedProduct,
-      categoryId: categories.find((c) => c.name === selectedCategory)?.id
+      categoryId: allCategories.find((c) => c.name === selectedCategory)?.id
     }
     productUpdate.mutate(toBeUpdated)
   }
@@ -113,7 +113,7 @@ export function UpdateDialog({ product, categories }: DialogProps) {
               <Label className="text-right">Category</Label>
               <div id="category" className="col-span-3">
                 <CategorySelector
-                  allCategoryNames={categories.map((c) => c.name)}
+                  allCategoryNames={allCategories.map((c) => c.name)}
                   selectedCategory={selectedCategory}
                   setSelectedCategory={setSelectedCategory}
                   allCategories={false}

@@ -31,7 +31,7 @@ export function Dashboard() {
 
   const [products, isLoading] = useGetProducts()
   const productDelete = useDeleteProduct()
-  const [categories] = useGetCategories()
+  const [allCategories] = useGetCategories()
 
   if (isLoading) {
     return <div>Loading...</div>
@@ -73,7 +73,7 @@ export function Dashboard() {
                 >
                   <Trash2Icon />
                 </Button>
-                <UpdateDialog product={product} categories={categories} />
+                <UpdateDialog product={product} allCategories={allCategories} />
               </TableCell>
             </TableRow>
           ))}
