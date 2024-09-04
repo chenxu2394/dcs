@@ -32,6 +32,10 @@ export function Products() {
     priceUpperBound
   )
 
+  if (isLoading) {
+    return <div>Loading...</div>
+  }
+
   if (error) {
     return <p>Error: {error.message}</p>
   }
@@ -41,26 +45,22 @@ export function Products() {
       <Can
         permission="PRODUCT:GET"
         permissionType="actions"
-        yes={() =>
-          isLoading ? (
-            <p>Loading...</p>
-          ) : (
-            <div>
-              <UtilsBar
-                setSearchTerm={setSearchTerm}
-                allCategoryNames={allCategories
-                  .map((c) => c.name)
-                  .filter((name): name is string => name !== null)}
-                selectedCategory={selectedCategory}
-                setSelectedCategory={setSelectedCategory}
-                maxPrice={maxPrice}
-                selectedPriceRange={selectedPriceRange}
-                setSelectedPriceRange={setSelectedPriceRange}
-              />
-              <ProductList products={products} />
-            </div>
-          )
-        }
+        yes={() => (
+          <div>
+            <UtilsBar
+              setSearchTerm={setSearchTerm}
+              allCategoryNames={allCategories
+                .map((c) => c.name)
+                .filter((name): name is string => name !== null)}
+              selectedCategory={selectedCategory}
+              setSelectedCategory={setSelectedCategory}
+              maxPrice={maxPrice}
+              selectedPriceRange={selectedPriceRange}
+              setSelectedPriceRange={setSelectedPriceRange}
+            />
+            <ProductList products={products} />
+          </div>
+        )}
       />
     </div>
   )
