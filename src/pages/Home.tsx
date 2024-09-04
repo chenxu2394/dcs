@@ -1,5 +1,5 @@
 import { Products } from "@/pages/Products"
-import { DecodedTokenContext } from "@/providers/token-provider"
+import { DecodedTokenContext } from "@/providers/decodedToken-provider"
 import { useContext } from "react"
 
 export function Home() {

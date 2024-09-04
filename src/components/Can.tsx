@@ -7,7 +7,7 @@ import {
   RBAC_ROLES
 } from "../lib/access-control"
 import { UserRoles } from "@/types"
-import { DecodedTokenContext } from "@/providers/token-provider"
+import { DecodedTokenContext } from "@/providers/decodedToken-provider"
 
 const checkPermission = (
   role: UserRoles,

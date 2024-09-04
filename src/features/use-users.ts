@@ -4,7 +4,7 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 
 import { getQueryKey } from "./utils"
 import { useContext } from "react"
-import { DecodedTokenContext } from "@/providers/token-provider"
+import { DecodedTokenContext } from "@/providers/decodedToken-provider"
 import { useToast } from "@/components/ui/use-toast"
 import { useNavigate } from "react-router-dom"
 

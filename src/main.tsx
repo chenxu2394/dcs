@@ -7,7 +7,7 @@ import { RouterProvider } from "react-router-dom"
 import router from "./routers"
 import { ThemeProvider } from "./components/theme-provider"
 import { Toaster } from "./components/ui/toaster"
-import { DecodedTokenProvider } from "./providers/token-provider"
+import { DecodedTokenProvider } from "./providers/decodedToken-provider"
 
 const queryClient = new QueryClient()
 

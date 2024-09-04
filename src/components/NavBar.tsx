@@ -8,7 +8,7 @@ import { ModeToggle } from "./mode-toggle"
 import { Link } from "react-router-dom"
 import { Can } from "./Can"
 import { useContext } from "react"
-import { DecodedTokenContext } from "@/providers/token-provider"
+import { DecodedTokenContext } from "@/providers/decodedToken-provider"
 
 export const NavMenuItemLink = ({
   href,
