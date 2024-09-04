@@ -8,7 +8,7 @@ import { ModeToggle } from "./mode-toggle"
 import { Link } from "react-router-dom"
 import { Can } from "./Can"
 import { useContext } from "react"
-import { TokenAndDecodedTokenContext } from "@/providers/token-provider"
+import { DecodedTokenContext } from "@/providers/token-provider"
 
 export const NavMenuItemLink = ({
   href,
@@ -31,10 +31,10 @@ export const NavMenuItemLink = ({
 }
 
 export function NavBar() {
-  const { removeTokenAndDecodedToken } = useContext(TokenAndDecodedTokenContext)
+  const { removeDecodedToken } = useContext(DecodedTokenContext)
 
   function handleLogout() {
-    removeTokenAndDecodedToken()
+    removeDecodedToken()
   }
 
   return (

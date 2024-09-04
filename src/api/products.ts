@@ -80,11 +80,6 @@ export default {
   },
 
   deleteOne: async (id: string) => {
-    // const retrieved = localStorage.getItem("tokenAndDecodedToken")
-    // const parsed = retrieved ? JSON.parse(retrieved) : null
-    // const token = parsed ? parsed.token : null
-    // console.log(token)
-
     const res = await api.delete(`${RESOURCE}/${id}`)
 
     //TODO: Delete with authorization

@@ -1,66 +1,66 @@
-import { DecodedToken, Token, TokenAndDecodedToken } from "@/types"
+import { DecodedToken, Token } from "@/types"
 import jwtDecode from "jwt-decode"
 import { createContext, useEffect, useState } from "react"
 import { isTokenValid } from "@/lib/utils"
 import router from "@/routers"
 
-export type TokenAndDecodedTokenContextType = {
-  tokenAndDecodedToken: TokenAndDecodedToken | null
-  saveTokenAndDecodedToken: (token: Token) => void
-  removeTokenAndDecodedToken: () => void
+export type DecodedTokenContextType = {
+  decodedToken: DecodedToken | null
+  saveDecodedToken: (token: Token) => void
+  removeDecodedToken: () => void
 }
 
-export const TokenAndDecodedTokenContext = createContext<TokenAndDecodedTokenContextType>({
-  tokenAndDecodedToken: null,
-  saveTokenAndDecodedToken: () => {
+export const DecodedTokenContext = createContext<DecodedTokenContextType>({
+  decodedToken: null,
+  saveDecodedToken: () => {
     // intentionally left empty
   },
-  removeTokenAndDecodedToken: () => {
+  removeDecodedToken: () => {
     // intentionally left empty
   }
 })
 
-export function TokenAndDecodedTokenProvider({ children }: { children: React.ReactNode }) {
-  const [tokenAndDecodedToken, setTokenAndDecodedToken] = useState<TokenAndDecodedToken | null>(
-    null
-  )
+export function DecodedTokenProvider({ children }: { children: React.ReactNode }) {
+  const [decodedToken, setDecodedToken] = useState<DecodedToken | null>(null)
 
   useEffect(() => {
-    const retrieved = localStorage.getItem("tokenAndDecodedToken")
-    const res = retrieved ? JSON.parse(retrieved) : null
-    if (res) {
-      setTokenAndDecodedToken(res)
+    const token = localStorage.getItem("token")
+    if (token) {
+      const decoded = jwtDecode<DecodedToken>(token) as DecodedToken
+      const isValid = isTokenValid(decoded)
+      if (!isValid) {
+        router.navigate("/login")
+        return
+      }
+      setDecodedToken(decoded)
     }
   }, [])
 
-  useEffect(() => {
-    if (tokenAndDecodedToken) {
-      localStorage.setItem("tokenAndDecodedToken", JSON.stringify(tokenAndDecodedToken))
-    }
-  }, [tokenAndDecodedToken])
-
-  const saveTokenAndDecodedToken = (token: Token) => {
+  const saveDecodedToken = (token: Token) => {
     const decoded = jwtDecode<DecodedToken>(token) as DecodedToken
     const isValid = isTokenValid(decoded)
     if (!isValid) {
       router.navigate("/login")
       return
     }
-    const res = { token, decodedToken: decoded }
-    localStorage.setItem("tokenAndDecodedToken", JSON.stringify(res))
-    setTokenAndDecodedToken(res)
+    localStorage.setItem("token", token)
+    setDecodedToken(decoded)
   }
 
-  const removeTokenAndDecodedToken = () => {
-    localStorage.removeItem("tokenAndDecodedToken")
-    setTokenAndDecodedToken(null)
+  const removeDecodedToken = () => {
+    localStorage.removeItem("token")
+    setDecodedToken(null)
   }
 
   return (
-    <TokenAndDecodedTokenContext.Provider
-      value={{ tokenAndDecodedToken, saveTokenAndDecodedToken, removeTokenAndDecodedToken }}
+    <DecodedTokenContext.Provider
+      value={{
+        decodedToken,
+        saveDecodedToken,
+        removeDecodedToken
+      }}
     >
       {children}
-    </TokenAndDecodedTokenContext.Provider>
+    </DecodedTokenContext.Provider>
   )
 }

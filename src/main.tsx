@@ -7,18 +7,18 @@ import { RouterProvider } from "react-router-dom"
 import router from "./routers"
 import { ThemeProvider } from "./components/theme-provider"
 import { Toaster } from "./components/ui/toaster"
-import { TokenAndDecodedTokenProvider } from "./providers/token-provider"
+import { DecodedTokenProvider } from "./providers/token-provider"
 
 const queryClient = new QueryClient()
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
     <QueryClientProvider client={queryClient}>
-      <TokenAndDecodedTokenProvider>
+      <DecodedTokenProvider>
         <RouterProvider router={router} />
         <ReactQueryDevtools initialIsOpen={false} />
         <Toaster />
-      </TokenAndDecodedTokenProvider>
+      </DecodedTokenProvider>
     </QueryClientProvider>
   </ThemeProvider>
 )

@@ -1,17 +1,10 @@
 import UserService from "@/api/users"
-import {
-  RetrievedUserDetail,
-  Token,
-  TokenAndDecodedToken,
-  tokenSchema,
-  UserLoginType,
-  UserRoles
-} from "@/types"
+import { RetrievedUserDetail, Token, tokenSchema, UserLoginType, UserRoles } from "@/types"
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 
 import { getQueryKey } from "./utils"
 import { useContext } from "react"
-import { TokenAndDecodedTokenContext } from "@/providers/token-provider"
+import { DecodedTokenContext } from "@/providers/token-provider"
 import { useToast } from "@/components/ui/use-toast"
 import { useNavigate } from "react-router-dom"
 
@@ -19,7 +12,7 @@ const QUERY_KEY = "user"
 const LOGIN_QUERY_KEY = "logged_in_user_token"
 
 export function useLogin() {
-  const { saveTokenAndDecodedToken } = useContext(TokenAndDecodedTokenContext)
+  const { saveDecodedToken } = useContext(DecodedTokenContext)
   const { toast } = useToast()
   const navigate = useNavigate()
   const queryClient = useQueryClient()
@@ -30,7 +23,7 @@ export function useLogin() {
       // console.log(token)
       const isValid = tokenSchema.safeParse(token)
       if (isValid.success) {
-        saveTokenAndDecodedToken(token)
+        saveDecodedToken(token)
         // queryClient.invalidateQueries(getQueryKey(LOGIN_QUERY_KEY))
         queryClient.setQueryData(getQueryKey(LOGIN_QUERY_KEY), token)
         navigate("/")

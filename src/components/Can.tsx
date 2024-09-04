@@ -7,7 +7,7 @@ import {
   RBAC_ROLES
 } from "../lib/access-control"
 import { UserRoles } from "@/types"
-import { TokenAndDecodedTokenContext } from "@/providers/token-provider"
+import { DecodedTokenContext } from "@/providers/token-provider"
 
 const checkPermission = (
   role: UserRoles,
@@ -61,12 +61,12 @@ type CanProp = {
 }
 
 export const Can = ({ permission, permissionType, yes, no = () => null }: CanProp) => {
-  const context = useContext(TokenAndDecodedTokenContext)
+  const context = useContext(DecodedTokenContext)
 
   let userRole: UserRoles = UserRoles.PUBLIC
 
-  if (context && context.tokenAndDecodedToken) {
-    userRole = context.tokenAndDecodedToken.decodedToken.user_role
+  if (context && context.decodedToken) {
+    userRole = context.decodedToken.user_role || UserRoles.PUBLIC
   }
 
   return checkPermission(userRole, permission, permissionType) ? yes() : no()
