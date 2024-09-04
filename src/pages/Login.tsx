@@ -39,7 +39,9 @@ export function LogIn() {
               type="password"
               onChange={handleChange}
             />
-            <Button type="submit">Submit</Button>
+            <Button type="submit" className="w-full">
+              Login
+            </Button>
           </form>
         </div>
       </div>
