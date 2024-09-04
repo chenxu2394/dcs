@@ -15,7 +15,7 @@ import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover
 
 interface Props {
   allCategoryNames: string[]
-  selectedCategory: string
+  selectedCategory: string | null
   setSelectedCategory: (category: string) => void
   allCategories: boolean
 }
