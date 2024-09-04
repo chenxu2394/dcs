@@ -1,4 +1,4 @@
-import { RetrievedUserDetail, UserLoginType } from "@/types"
+import { RetrievedUserDetail, UserLoginType, UserRegisterType } from "@/types"
 import api from "."
 
 const RESOURCE = "/users"
@@ -8,6 +8,15 @@ export default {
     const res = await api.post(`${RESOURCE}/login`, credentials)
     if (res.status !== 200) {
       throw new Error("Error logging in")
+    }
+
+    // console.log(res.data)
+    return res.data
+  },
+  register: async (credentials: UserRegisterType): Promise<string> => {
+    const res = await api.post(`${RESOURCE}/register`, credentials)
+    if (res.status !== 200) {
+      throw new Error("Error registering")
     }
 
     // console.log(res.data)

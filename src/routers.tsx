@@ -5,6 +5,7 @@ import { Products } from "./pages/Products"
 import { Dashboard } from "./pages/Dashboard"
 import { OneProduct } from "./pages/OneProduct"
 import { LogIn } from "./pages/Login"
+import { Register } from "./pages/Register"
 
 const router = createBrowserRouter([
   {
@@ -30,6 +31,10 @@ const router = createBrowserRouter([
       {
         path: "/login",
         element: <LogIn />
+      },
+      {
+        path: "/register",
+        element: <Register />
       }
     ]
   }

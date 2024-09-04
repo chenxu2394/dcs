@@ -53,6 +53,11 @@ export function NavBar() {
               yes={() => <NavMenuItemLink href="/login">Login</NavMenuItemLink>}
             />
             <Can
+              permission="REGISTER:VIEW"
+              permissionType="views"
+              yes={() => <NavMenuItemLink href="/register">Register</NavMenuItemLink>}
+            />
+            <Can
               permission="DASHBOARD:VIEW"
               permissionType="views"
               yes={() => <NavMenuItemLink href="/dashboard">Dashboard</NavMenuItemLink>}

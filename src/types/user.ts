@@ -7,6 +7,12 @@ export const userLoginSchema = z.object({
 
 export type UserLoginType = z.infer<typeof userLoginSchema>
 
+export const userRegisterSchema = userLoginSchema.extend({
+  name: z.string().min(2)
+})
+
+export type UserRegisterType = z.infer<typeof userRegisterSchema>
+
 export interface UsersState {
   users: UserLoginType[]
   loggedInUser: UserLoginType | null
