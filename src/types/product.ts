@@ -1,9 +1,9 @@
 import { z } from "zod"
 
 export const categorySchema = z.object({
-  id: z.string(),
-  name: z.string(),
-  description: z.string()
+  id: z.string().or(z.null()),
+  name: z.string().or(z.null()),
+  description: z.string().or(z.null())
 })
 
 export type Category = z.infer<typeof categorySchema>
