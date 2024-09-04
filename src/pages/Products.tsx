@@ -48,7 +48,9 @@ export function Products() {
             <div>
               <UtilsBar
                 setSearchTerm={setSearchTerm}
-                allCategoryNames={allCategories.map((c) => c.name)}
+                allCategoryNames={allCategories
+                  .map((c) => c.name)
+                  .filter((name): name is string => name !== null)}
                 selectedCategory={selectedCategory}
                 setSelectedCategory={setSelectedCategory}
                 maxPrice={maxPrice}

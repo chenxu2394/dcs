@@ -12,24 +12,26 @@ import {
 import { CategorySelector } from "./CategorySelector"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import { Category, Product } from "../types"
+import { Category, Product, ProductUpdate } from "../types"
 import { ChangeEvent, FormEvent, useState } from "react"
-import { EditIcon } from "lucide-react"
-import { useUpdateProduct } from "../features/use-products"
+import { EditIcon, PlusIcon } from "lucide-react"
+import { useUpdateProduct, useCreateProduct } from "../features/use-products"
+import { ProductCreate } from "../types/product"
 
 type DialogProps = {
   product: Product
   allCategories: Category[]
-  // productUpdate: ReturnType<typeof useUpdateProduct>
+  forCreate?: boolean
 }
-export function ProductDialog({ product, allCategories }: DialogProps) {
-  const [updatedProduct, setUpdatedProduct] = useState(product)
-  const [selectedCategory, setSelectedCategory] = useState<string>(product.category.name)
+export function ProductDialog({ product, allCategories, forCreate = true }: DialogProps) {
+  const [targetProduct, setTargetProduct] = useState(product)
+  const [selectedCategory, setSelectedCategory] = useState<string | null>(product.category.name)
   const productUpdate = useUpdateProduct()
+  const productCreate = useCreateProduct()
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target
-    setUpdatedProduct((prev) => ({
+    setTargetProduct((prev) => ({
       ...prev,
       [name]: value
     }))
@@ -37,6 +39,12 @@ export function ProductDialog({ product, allCategories }: DialogProps) {
 
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault()
+
+    if (!selectedCategory) {
+      console.error("No category selected")
+      return
+    }
+
     const selectedCategoryObj = allCategories.find((c) => c.name === selectedCategory)
 
     if (!selectedCategoryObj) {
@@ -45,28 +53,41 @@ export function ProductDialog({ product, allCategories }: DialogProps) {
       return
     }
 
-    const { category, ...rest } = updatedProduct
-
-    const toBeUpdated = {
-      ...rest,
-      categoryId: selectedCategoryObj.id
+    if (!selectedCategoryObj.id) {
+      // Handle the case where the category id is not found
+      console.error("Selected category id not found")
+      return
     }
 
-    productUpdate.mutate(toBeUpdated)
+    const { id, category, ...rest } = targetProduct
+    if (forCreate) {
+      const toBeCreated: ProductCreate = {
+        ...rest,
+        categoryId: selectedCategoryObj.id
+      }
+      productCreate.mutate(toBeCreated)
+    } else {
+      const toBeUpdated: ProductUpdate = {
+        id,
+        ...rest,
+        categoryId: selectedCategoryObj.id
+      }
+      productUpdate.mutate(toBeUpdated)
+    }
   }
 
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button variant="outline">
-          <EditIcon />
-        </Button>
+        <Button variant="outline">{forCreate ? <PlusIcon /> : <EditIcon />}</Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
-          <DialogTitle>Edit product</DialogTitle>
+          <DialogTitle>{forCreate ? "Create a new product" : "Edit product"}</DialogTitle>
           <DialogDescription>
-            Make changes to the product here. Click save when you are done.
+            {forCreate
+              ? "Fill in the details below to create a new product."
+              : "Update the details below to edit the product."}
           </DialogDescription>
         </DialogHeader>
         <form onSubmit={handleSubmit}>
@@ -78,7 +99,7 @@ export function ProductDialog({ product, allCategories }: DialogProps) {
               <Input
                 id="name"
                 name="name"
-                value={updatedProduct.name}
+                value={targetProduct.name}
                 className="col-span-3"
                 onChange={handleChange}
               />
@@ -90,7 +111,7 @@ export function ProductDialog({ product, allCategories }: DialogProps) {
               <Input
                 id="description"
                 name="description"
-                value={updatedProduct.description}
+                value={targetProduct.description}
                 className="col-span-3"
                 onChange={handleChange}
               />
@@ -103,7 +124,7 @@ export function ProductDialog({ product, allCategories }: DialogProps) {
                 id="price"
                 name="price"
                 type="number"
-                value={updatedProduct.price}
+                value={targetProduct.price}
                 className="col-span-3"
                 onChange={handleChange}
               />
@@ -116,7 +137,7 @@ export function ProductDialog({ product, allCategories }: DialogProps) {
                 id="discount"
                 name="discount"
                 type="number"
-                value={updatedProduct.discount}
+                value={targetProduct.discount}
                 className="col-span-3"
                 onChange={handleChange}
               />
@@ -125,7 +146,9 @@ export function ProductDialog({ product, allCategories }: DialogProps) {
               <Label className="text-right">Category</Label>
               <div id="category" className="col-span-3">
                 <CategorySelector
-                  allCategoryNames={allCategories.map((c) => c.name)}
+                  allCategoryNames={allCategories
+                    .map((c) => c.name)
+                    .filter((name): name is string => name !== null)}
                   selectedCategory={selectedCategory}
                   setSelectedCategory={setSelectedCategory}
                   allCategories={false}
@@ -135,7 +158,7 @@ export function ProductDialog({ product, allCategories }: DialogProps) {
           </div>
           <DialogFooter>
             <DialogClose asChild>
-              <Button type="submit">Save changes</Button>
+              <Button type="submit">{forCreate ? "Create product" : "Update product"}</Button>
             </DialogClose>
           </DialogFooter>
         </form>

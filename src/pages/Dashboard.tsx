@@ -1,14 +1,9 @@
 import { Can } from "@/components/Can"
-import { ProductCreate } from "@/types"
-import { useState } from "react"
+import { Product } from "@/types"
 import { Button } from "@/components/ui/button"
-import {
-  useGetProducts,
-  useDeleteProduct,
-  useCreateProduct,
-  useUpdateProduct
-} from "@/features/use-products"
+import { useGetProducts, useDeleteProduct } from "@/features/use-products"
 import { useGetCategories } from "@/features/use-categories"
+import { v4 as uuidv4 } from "uuid"
 import {
   Table,
   TableBody,
@@ -23,15 +18,19 @@ import { Trash2Icon } from "lucide-react"
 import { ProductDialog } from "@/components/ProductDialog"
 
 export function Dashboard() {
-  const [newProduct, setNewProduct] = useState<ProductCreate>({
-    name: "Jeans",
-    description: "This is a new product",
+  const dummyProduct: Product = {
+    id: uuidv4(),
+    name: "Sample Product",
+    description: "This is a sample product",
     quantity: 10,
     price: 100_000,
     discount: 0,
-    categoryId: "de8a2af1-86b3-4471-a1dd-e52ab8d21f9c"
-  })
-  const addProduct = useCreateProduct()
+    category: {
+      id: null,
+      name: null,
+      description: null
+    }
+  }
 
   const [products, isLoading] = useGetProducts()
   const productDelete = useDeleteProduct()
@@ -46,7 +45,9 @@ export function Dashboard() {
       <Can
         permission="PRODUCT:ADD"
         permissionType="actions"
-        yes={() => <Button onClick={() => addProduct.mutate(newProduct)}>Add Product</Button>}
+        yes={() => (
+          <ProductDialog product={dummyProduct} allCategories={allCategories} forCreate={true} />
+        )}
       />
       <Table>
         {/* <TableCaption>A list of products</TableCaption> */}
@@ -77,7 +78,7 @@ export function Dashboard() {
                 >
                   <Trash2Icon />
                 </Button>
-                <ProductDialog product={product} allCategories={allCategories} />
+                <ProductDialog product={product} allCategories={allCategories} forCreate={false} />
               </TableCell>
             </TableRow>
           ))}
