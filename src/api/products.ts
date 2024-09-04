@@ -99,12 +99,19 @@ export default {
     }
   },
 
-  updateOne: async (product: ProductUpdate) => {
+  updateOne: async (product: ProductUpdate): Promise<Product> => {
     //TODO: Update with authorization
     const res = await api.put(RESOURCE, product)
 
     if (res.status !== 200) {
       throw Error("somehting went wrong")
     }
+
+    const validatedProduct = productSchema.safeParse(res.data)
+    if (!validatedProduct.success) {
+      throw new Error("Error validating product")
+    }
+
+    return res.data
   }
 }
