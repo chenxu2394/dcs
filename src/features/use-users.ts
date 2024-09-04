@@ -14,6 +14,7 @@ import { useContext } from "react"
 import { DecodedTokenContext } from "@/providers/decodedToken-provider"
 import { useToast } from "@/components/ui/use-toast"
 import { useNavigate } from "react-router-dom"
+import { AxiosError } from "axios"
 
 const QUERY_KEY = "user"
 const LOGIN_QUERY_KEY = "logged_in_user_token"
@@ -78,11 +79,17 @@ export function useRegister() {
         })
       }
     },
-    onError: (error) => {
-      console.error("Registration error:", error)
-      toast({
-        description: "An error occurred"
-      })
+    onError: (error: unknown) => {
+      if (error instanceof AxiosError && error.response) {
+        const errorMessage = error.response.data as string
+        toast({
+          description: errorMessage
+        })
+      } else {
+        toast({
+          description: "An error occurred"
+        })
+      }
     }
   })
   return mutation
