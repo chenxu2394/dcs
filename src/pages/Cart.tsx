@@ -60,6 +60,7 @@ export function Cart() {
         <TableFooter>
           <TableRow>
             <TableCell>Total</TableCell>
+            <TableCell></TableCell>
             <TableCell>
               {Object.values(cart).reduce((acc, quantity) => acc + quantity, 0)}
             </TableCell>
