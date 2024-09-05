@@ -1,4 +1,3 @@
-import { Can } from "@/components/Can"
 import { Product } from "@/types"
 import { Button } from "@/components/ui/button"
 import { useGetProducts, useDeleteProduct } from "@/features/use-products"
@@ -42,13 +41,7 @@ export function Dashboard() {
 
   return (
     <div>
-      <Can
-        permission="PRODUCT:ADD"
-        permissionType="actions"
-        yes={() => (
-          <ProductDialog product={dummyProduct} allCategories={allCategories} forCreate={true} />
-        )}
-      />
+      <ProductDialog product={dummyProduct} allCategories={allCategories} forCreate={true} />
       <Table>
         {/* <TableCaption>A list of products</TableCaption> */}
         <TableHeader>

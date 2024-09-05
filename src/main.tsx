@@ -15,13 +15,13 @@ const queryClient = new QueryClient()
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
     <QueryClientProvider client={queryClient}>
-      <DecodedTokenProvider>
-        <CartProvider>
+      <CartProvider>
+        <DecodedTokenProvider>
           <RouterProvider router={router} />
           <ReactQueryDevtools initialIsOpen={false} />
           <Toaster />
-        </CartProvider>
-      </DecodedTokenProvider>
+        </DecodedTokenProvider>
+      </CartProvider>
     </QueryClientProvider>
   </ThemeProvider>
 )

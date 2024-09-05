@@ -1,16 +1,18 @@
 import { DecodedToken, Token } from "@/types"
 import jwtDecode from "jwt-decode"
-import { createContext, useEffect, useState } from "react"
+import { createContext, useEffect, useMemo, useState } from "react"
 import { isTokenValid } from "@/lib/utils"
 import router from "@/routers"
 
 export type DecodedTokenContextType = {
+  isLoading: boolean
   decodedToken: DecodedToken | null
   saveDecodedToken: (token: Token) => void
   removeDecodedToken: () => void
 }
 
 export const DecodedTokenContext = createContext<DecodedTokenContextType>({
+  isLoading: true,
   decodedToken: null,
   saveDecodedToken: () => {
     // intentionally left empty
@@ -22,6 +24,7 @@ export const DecodedTokenContext = createContext<DecodedTokenContextType>({
 
 export function DecodedTokenProvider({ children }: { children: React.ReactNode }) {
   const [decodedToken, setDecodedToken] = useState<DecodedToken | null>(null)
+  const [isLoading, setIsLoading] = useState(true)
 
   useEffect(() => {
     const token = localStorage.getItem("token")
@@ -34,6 +37,7 @@ export function DecodedTokenProvider({ children }: { children: React.ReactNode }
       }
       setDecodedToken(decoded)
     }
+    setIsLoading(false)
   }, [])
 
   const saveDecodedToken = (token: Token) => {
@@ -52,15 +56,17 @@ export function DecodedTokenProvider({ children }: { children: React.ReactNode }
     setDecodedToken(null)
   }
 
+  const providerValue = useMemo(
+    () => ({
+      isLoading,
+      decodedToken,
+      saveDecodedToken,
+      removeDecodedToken
+    }),
+    [decodedToken]
+  )
+
   return (
-    <DecodedTokenContext.Provider
-      value={{
-        decodedToken,
-        saveDecodedToken,
-        removeDecodedToken
-      }}
-    >
-      {children}
-    </DecodedTokenContext.Provider>
+    <DecodedTokenContext.Provider value={providerValue}>{children}</DecodedTokenContext.Provider>
   )
 }
