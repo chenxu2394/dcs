@@ -8,6 +8,7 @@ import router from "./routers"
 import { ThemeProvider } from "./components/theme-provider"
 import { Toaster } from "./components/ui/toaster"
 import { DecodedTokenProvider } from "./providers/decodedToken-provider"
+import { CartProvider } from "./providers/cart-provider"
 
 const queryClient = new QueryClient()
 
@@ -15,9 +16,11 @@ ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
     <QueryClientProvider client={queryClient}>
       <DecodedTokenProvider>
-        <RouterProvider router={router} />
-        <ReactQueryDevtools initialIsOpen={false} />
-        <Toaster />
+        <CartProvider>
+          <RouterProvider router={router} />
+          <ReactQueryDevtools initialIsOpen={false} />
+          <Toaster />
+        </CartProvider>
       </DecodedTokenProvider>
     </QueryClientProvider>
   </ThemeProvider>

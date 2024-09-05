@@ -9,6 +9,9 @@ import { Link } from "react-router-dom"
 import { Can } from "./Can"
 import { useContext } from "react"
 import { DecodedTokenContext } from "@/providers/decodedToken-provider"
+import { Button } from "./ui/button"
+import { ShoppingCartIcon } from "lucide-react"
+import { useNavigate } from "react-router-dom"
 
 export const NavMenuItemLink = ({
   href,
@@ -32,6 +35,7 @@ export const NavMenuItemLink = ({
 
 export function NavBar() {
   const { removeDecodedToken } = useContext(DecodedTokenContext)
+  const navigate = useNavigate()
 
   function handleLogout() {
     removeDecodedToken()
@@ -42,39 +46,51 @@ export function NavBar() {
       <Link to="/" className="ml-4 font-bold text-lg no-underline">
         ECM
       </Link>
-      <NavigationMenu>
-        <NavigationMenuList>
-          <NavigationMenuItem className="flex">
-            <NavMenuItemLink href="/">Home</NavMenuItemLink>
-            <NavMenuItemLink href="/products">Products</NavMenuItemLink>
-            <Can
-              permission="LOGIN:VIEW"
-              permissionType="views"
-              yes={() => <NavMenuItemLink href="/login">Login</NavMenuItemLink>}
-            />
-            <Can
-              permission="REGISTER:VIEW"
-              permissionType="views"
-              yes={() => <NavMenuItemLink href="/register">Register</NavMenuItemLink>}
-            />
-            <Can
-              permission="DASHBOARD:VIEW"
-              permissionType="views"
-              yes={() => <NavMenuItemLink href="/dashboard">Dashboard</NavMenuItemLink>}
-            />
-            <Can
-              permission="LOGOUT:VIEW"
-              permissionType="views"
-              yes={() => (
-                <NavMenuItemLink href="/" onClick={handleLogout}>
-                  Logout
-                </NavMenuItemLink>
-              )}
-            />
-          </NavigationMenuItem>
-        </NavigationMenuList>
-      </NavigationMenu>
-      <ModeToggle />
+      <div className="flex-grow flex justify-center">
+        <NavigationMenu>
+          <NavigationMenuList>
+            <NavigationMenuItem className="flex">
+              <NavMenuItemLink href="/">Home</NavMenuItemLink>
+              <NavMenuItemLink href="/products">Products</NavMenuItemLink>
+              <Can
+                permission="LOGIN:VIEW"
+                permissionType="views"
+                yes={() => <NavMenuItemLink href="/login">Login</NavMenuItemLink>}
+              />
+              <Can
+                permission="REGISTER:VIEW"
+                permissionType="views"
+                yes={() => <NavMenuItemLink href="/register">Register</NavMenuItemLink>}
+              />
+              <Can
+                permission="DASHBOARD:VIEW"
+                permissionType="views"
+                yes={() => <NavMenuItemLink href="/dashboard">Dashboard</NavMenuItemLink>}
+              />
+              <Can
+                permission="LOGOUT:VIEW"
+                permissionType="views"
+                yes={() => (
+                  <NavMenuItemLink href="/" onClick={handleLogout}>
+                    Logout
+                  </NavMenuItemLink>
+                )}
+              />
+            </NavigationMenuItem>
+          </NavigationMenuList>
+        </NavigationMenu>
+      </div>
+      <div className="flex items-center mr-4 gap-2">
+        <Button
+          variant="outline"
+          onClick={() => {
+            navigate("/cart")
+          }}
+        >
+          <ShoppingCartIcon />
+        </Button>
+        <ModeToggle />
+      </div>
     </div>
   )
 }
