@@ -4,15 +4,20 @@ import { Card, CardDescription, CardFooter, CardTitle } from "@/components/ui/ca
 import { Button } from "@/components/ui/button"
 import { CartContext } from "@/providers/cart-provider"
 import { useContext } from "react"
+import { useToast } from "@/components/ui/use-toast"
 
 export function OneProduct() {
   const { id = "" } = useParams<{ id: string }>()
   const [product, isLoading] = useGetOneProduct(id)
   const { addToCart } = useContext(CartContext)
+  const { toast } = useToast()
 
   const handleAddToCart = () => {
     if (product) {
       addToCart(product)
+      toast({
+        description: `${product.name} added to cart`
+      })
     }
   }
 
