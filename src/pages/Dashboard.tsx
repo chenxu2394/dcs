@@ -13,8 +13,10 @@ import {
   TableHeader,
   TableRow
 } from "@/components/ui/table"
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Trash2Icon } from "lucide-react"
 import { ProductDialog } from "@/components/ProductDialog"
+import { useGetAllUsers } from "@/features/use-users"
 
 export function Dashboard() {
   const dummyProduct: Product = {
@@ -32,51 +34,86 @@ export function Dashboard() {
   }
 
   const [products, isLoading] = useGetProducts()
+  const [users, isLoadingUsers] = useGetAllUsers()
   const productDelete = useDeleteProduct()
   const [allCategories] = useGetCategories()
 
-  if (isLoading) {
+  if (isLoading || isLoadingUsers) {
     return <div>Loading...</div>
   }
 
   return (
-    <div>
-      <ProductDialog product={dummyProduct} allCategories={allCategories} forCreate={true} />
-      <Table>
-        {/* <TableCaption>A list of products</TableCaption> */}
-        <TableHeader>
-          <TableRow>
-            <TableHead>Name</TableHead>
-            <TableHead>Description</TableHead>
-            <TableHead>Price(€)</TableHead>
-            <TableHead>Discount(%)</TableHead>
-            <TableHead>Category </TableHead>
-            <TableHead>Actions</TableHead>
-          </TableRow>
-        </TableHeader>
-        <TableBody>
-          {products.map((product) => (
-            <TableRow key={product.id}>
-              <TableCell className="font-medium">{product.name}</TableCell>
-              <TableCell>{product.description}</TableCell>
-              <TableCell>{product.price}</TableCell>
-              <TableCell>{product.discount}</TableCell>
-              <TableCell>{product.category.name}</TableCell>
-              <TableCell className="flex gap-1">
-                <Button
-                  // variant="destructive"
-                  onClick={() => {
-                    productDelete.mutate(product.id)
-                  }}
-                >
-                  <Trash2Icon />
-                </Button>
-                <ProductDialog product={product} allCategories={allCategories} forCreate={false} />
-              </TableCell>
-            </TableRow>
-          ))}
-        </TableBody>
-      </Table>
-    </div>
+    <Tabs defaultValue="products">
+      <TabsList className="grid grid-cols-2">
+        <TabsTrigger value="products">Products</TabsTrigger>
+        <TabsTrigger value="users">Users</TabsTrigger>
+      </TabsList>
+      <TabsContent value="products">
+        <div>
+          <ProductDialog product={dummyProduct} allCategories={allCategories} forCreate={true} />
+          <Table>
+            {/* <TableCaption>A list of products</TableCaption> */}
+            <TableHeader>
+              <TableRow>
+                <TableHead>Name</TableHead>
+                <TableHead>Description</TableHead>
+                <TableHead>Price(€)</TableHead>
+                <TableHead>Discount(%)</TableHead>
+                <TableHead>Category </TableHead>
+                <TableHead>Actions</TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              {products.map((product) => (
+                <TableRow key={product.id}>
+                  <TableCell className="font-medium">{product.name}</TableCell>
+                  <TableCell>{product.description}</TableCell>
+                  <TableCell>{product.price}</TableCell>
+                  <TableCell>{product.discount}</TableCell>
+                  <TableCell>{product.category.name}</TableCell>
+                  <TableCell className="flex gap-1">
+                    <Button
+                      // variant="destructive"
+                      onClick={() => {
+                        productDelete.mutate(product.id)
+                      }}
+                    >
+                      <Trash2Icon />
+                    </Button>
+                    <ProductDialog
+                      product={product}
+                      allCategories={allCategories}
+                      forCreate={false}
+                    />
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </div>
+      </TabsContent>
+      <TabsContent value="users">
+        <div>
+          <Table>
+            <TableHeader>
+              <TableRow>
+                <TableHead>Name</TableHead>
+                <TableHead>Email</TableHead>
+                <TableHead>Role</TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              {users.map((user) => (
+                <TableRow key={user.id}>
+                  <TableCell>{user.name}</TableCell>
+                  <TableCell>{user.email}</TableCell>
+                  <TableCell>{user.userRole}</TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </div>
+      </TabsContent>
+    </Tabs>
   )
 }

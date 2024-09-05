@@ -31,6 +31,7 @@ export type UserRole = z.infer<typeof userRoleSchema>
 export const retrievedUserDetailSchema = z.object({
   id: z.string(),
   email: z.string().email(),
+  name: z.string().min(2),
   userRole: userRoleSchema
 })
 

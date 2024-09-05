@@ -16,7 +16,7 @@ import { useToast } from "@/components/ui/use-toast"
 import { useNavigate } from "react-router-dom"
 import { AxiosError } from "axios"
 
-const QUERY_KEY = "user"
+const QUERY_KEY = "users"
 const LOGIN_QUERY_KEY = "logged_in_user_token"
 
 export function useLogin() {
@@ -101,7 +101,7 @@ export function useGetUserDetails(
 ): [RetrievedUserDetail, boolean, Error | null, () => void] {
   if (!userId) {
     return [
-      { email: "", id: "", userRole: UserRoles.PUBLIC },
+      { email: "", id: "", userRole: UserRoles.PUBLIC, name: "" },
       false,
       new Error("userId is null"),
       () => {
@@ -118,7 +118,16 @@ export function useGetUserDetails(
     queryKey: getQueryKey(LOGIN_QUERY_KEY),
     queryFn: () => UserService.getUserDetails(userId),
     enabled: options.enabled,
-    initialData: { email: "", id: "", userRole: UserRoles.PUBLIC }
+    initialData: { email: "", id: "", userRole: UserRoles.PUBLIC, name: "" }
   })
   return [user, isLoading, error, refetch]
+}
+
+export function useGetAllUsers(): [RetrievedUserDetail[], boolean, Error | null] {
+  const { data, isLoading, error } = useQuery({
+    queryKey: getQueryKey(QUERY_KEY),
+    queryFn: () => UserService.getAllUsers(),
+    initialData: []
+  })
+  return [data, isLoading, error]
 }

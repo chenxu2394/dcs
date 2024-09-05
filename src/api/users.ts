@@ -35,5 +35,16 @@ export default {
       return res.data
     }
     throw Error("Did not fetch user info")
+  },
+  getAllUsers: async (): Promise<RetrievedUserDetail[]> => {
+    const res = await api.get(RESOURCE, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`
+      }
+    })
+    if (res.status !== 200) {
+      throw new Error("Error fetching users")
+    }
+    return res.data
   }
 }
