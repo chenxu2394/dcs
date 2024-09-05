@@ -23,7 +23,7 @@ export function UtilsBar({
   setSelectedPriceRange
 }: Props) {
   return (
-    <Card className="grid p-2 mb-2 grid-cols-3 place-items-center">
+    <Card className="grid gap-2 p-2 mb-2 grid-cols-3 place-items-center">
       <SearchBox setSearchTerm={setSearchTerm} />
       <div className="flex justify-center w-full max-w-sm rounded-lg border  dark:bg-gray-900 p-1">
         <CategorySelector
