@@ -6,17 +6,16 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
-  DialogClose
+  DialogTrigger
 } from "@/components/ui/dialog"
 import { CategorySelector } from "./CategorySelector"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import { Category, Product, ProductUpdate } from "../types"
+import { Category, Product, ProductUpdate, ProductCreate, productDialogSchema } from "../types"
 import { ChangeEvent, FormEvent, useState } from "react"
-import { EditIcon, PlusIcon } from "lucide-react"
+import { EditIcon } from "lucide-react"
 import { useUpdateProduct, useCreateProduct } from "../features/use-products"
-import { ProductCreate } from "../types/product"
+import { useToast } from "./ui/use-toast"
 
 type DialogProps = {
   product: Product
@@ -26,8 +25,11 @@ type DialogProps = {
 export function ProductDialog({ product, allCategories, forCreate = true }: DialogProps) {
   const [targetProduct, setTargetProduct] = useState(product)
   const [selectedCategory, setSelectedCategory] = useState<string | null>(product.category.name)
+  const [errors, setErrors] = useState<{ [key: string]: string }>({})
+  const [isDialogOpen, setIsDialogOpen] = useState(false)
   const productUpdate = useUpdateProduct()
   const productCreate = useCreateProduct()
+  const { toast } = useToast()
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target
@@ -41,45 +43,53 @@ export function ProductDialog({ product, allCategories, forCreate = true }: Dial
     e.preventDefault()
 
     if (!selectedCategory) {
-      console.error("No category selected")
+      setErrors({ categoryId: "No category selected" })
+      toast({ description: "No category selected" })
       return
     }
 
     const selectedCategoryObj = allCategories.find((c) => c.name === selectedCategory)
 
-    if (!selectedCategoryObj) {
-      // Handle the case where the category is not found
-      console.error("Selected category not found")
-      return
-    }
-
-    if (!selectedCategoryObj.id) {
-      // Handle the case where the category id is not found
-      console.error("Selected category id not found")
+    if (!selectedCategoryObj || !selectedCategoryObj.id) {
+      setErrors({ categoryId: "Selected category not found or invalid" })
+      toast({ description: "Selected category not found or invalid" })
       return
     }
 
     const { id, category, ...rest } = targetProduct
+    const formData = { ...rest, categoryId: selectedCategoryObj.id }
+
+    const result = productDialogSchema.safeParse(formData)
+    if (!result.success) {
+      const errorMessages = result.error.errors.reduce((acc, error) => {
+        acc[error.path[0]] = error.message
+        toast({ description: error.message })
+        return acc
+      }, {} as { [key: string]: string })
+      setErrors(errorMessages)
+      return
+    }
+
+    setErrors({})
+
     if (forCreate) {
-      const toBeCreated: ProductCreate = {
-        ...rest,
-        categoryId: selectedCategoryObj.id
-      }
+      const toBeCreated: ProductCreate = result.data
       productCreate.mutate(toBeCreated)
     } else {
-      const toBeUpdated: ProductUpdate = {
-        id,
-        ...rest,
-        categoryId: selectedCategoryObj.id
-      }
+      const toBeUpdated: ProductUpdate = { id, ...result.data }
       productUpdate.mutate(toBeUpdated)
     }
+
+    // Close the dialog only if there are no validation errors
+    setIsDialogOpen(false)
   }
 
   return (
-    <Dialog>
+    <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
       <DialogTrigger asChild>
-        <Button variant="outline">{forCreate ? <PlusIcon /> : <EditIcon />}</Button>
+        <Button variant="outline" onClick={() => setIsDialogOpen(true)}>
+          {forCreate ? "Add Product" : <EditIcon />}
+        </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
@@ -103,6 +113,7 @@ export function ProductDialog({ product, allCategories, forCreate = true }: Dial
                 className="col-span-3"
                 onChange={handleChange}
               />
+              {errors.name && <span className="text-red-500 col-span-4">{errors.name}</span>}
             </div>
             <div className="grid grid-cols-4 items-center gap-4">
               <Label htmlFor="description" className="text-right">
@@ -115,6 +126,9 @@ export function ProductDialog({ product, allCategories, forCreate = true }: Dial
                 className="col-span-3"
                 onChange={handleChange}
               />
+              {errors.description && (
+                <span className="text-red-500 col-span-4">{errors.description}</span>
+              )}
             </div>
             <div className="grid grid-cols-4 items-center gap-4">
               <Label htmlFor="price" className="text-right">
@@ -128,6 +142,7 @@ export function ProductDialog({ product, allCategories, forCreate = true }: Dial
                 className="col-span-3"
                 onChange={handleChange}
               />
+              {errors.price && <span className="text-red-500 col-span-4">{errors.price}</span>}
             </div>
             <div className="grid grid-cols-4 items-center gap-4">
               <Label htmlFor="discount" className="text-right">
@@ -141,6 +156,9 @@ export function ProductDialog({ product, allCategories, forCreate = true }: Dial
                 className="col-span-3"
                 onChange={handleChange}
               />
+              {errors.discount && (
+                <span className="text-red-500 col-span-4">{errors.discount}</span>
+              )}
             </div>
             <div className="grid grid-cols-4 items-center gap-4">
               <Label className="text-right">Category</Label>
@@ -153,13 +171,14 @@ export function ProductDialog({ product, allCategories, forCreate = true }: Dial
                   setSelectedCategory={setSelectedCategory}
                   allCategories={false}
                 />
+                {errors.categoryId && (
+                  <span className="text-red-500 col-span-4">{errors.categoryId}</span>
+                )}
               </div>
             </div>
           </div>
           <DialogFooter>
-            <DialogClose asChild>
-              <Button type="submit">{forCreate ? "Create product" : "Update product"}</Button>
-            </DialogClose>
+            <Button type="submit">{forCreate ? "Create product" : "Update product"}</Button>
           </DialogFooter>
         </form>
       </DialogContent>

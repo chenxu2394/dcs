@@ -2,7 +2,7 @@ import ReactDOM from "react-dom/client"
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
 
 import "./index.css"
-import { ReactQueryDevtools } from "@tanstack/react-query-devtools"
+// import { ReactQueryDevtools } from "@tanstack/react-query-devtools"
 import { RouterProvider } from "react-router-dom"
 import router from "./routers"
 import { ThemeProvider } from "./components/theme-provider"
@@ -18,7 +18,7 @@ ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
       <CartProvider>
         <DecodedTokenProvider>
           <RouterProvider router={router} />
-          <ReactQueryDevtools initialIsOpen={false} />
+          {/* <ReactQueryDevtools initialIsOpen={false} /> */}
           <Toaster />
         </DecodedTokenProvider>
       </CartProvider>

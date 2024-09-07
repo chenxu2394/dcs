@@ -12,14 +12,11 @@ export const categoriesSchema = z.array(categorySchema)
 
 export const productSchema = z.object({
   id: z.string(),
-  name: z.string(),
-  description: z.string(),
-  quantity: z.number().min(0, { message: "Quantity must be greater than 0" }),
-  price: z.number().min(0, { message: "Price must be greater than 0" }),
-  discount: z
-    .number()
-    .min(0, { message: "Discount must be greater than 0" })
-    .max(100, { message: "Discount must be less than 100" }),
+  name: z.string().min(1, "Name is required"),
+  description: z.string().min(1, "Description is required"),
+  quantity: z.coerce.number().min(0, "Quantity must be a positive number"),
+  price: z.coerce.number().min(0, "Price must be a positive number"),
+  discount: z.coerce.number().min(0).max(100, "Discount must be between 0 and 100"),
   category: categorySchema
 })
 export type Product = z.infer<typeof productSchema>
@@ -52,7 +49,7 @@ export const productDialogSchema = productSchema
   })
   .extend({
     id: z.string().optional(),
-    categoryId: z.string()
+    categoryId: z.string().min(1, "Category is required")
   })
 
 export type ProductDialogType = z.infer<typeof productDialogSchema>
