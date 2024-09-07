@@ -71,7 +71,7 @@ export function NavBar() {
                 permission="LOGOUT:VIEW"
                 permissionType="views"
                 yes={() => (
-                  <NavMenuItemLink href="/" onClick={handleLogout}>
+                  <NavMenuItemLink href="/login" onClick={handleLogout}>
                     Logout
                   </NavMenuItemLink>
                 )}

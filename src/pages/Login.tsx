@@ -6,7 +6,6 @@ import { Button } from "../components/ui/button"
 import { useLogin } from "@/features/use-users"
 import { userLoginSchema } from "@/types"
 import { useToast } from "@/components/ui/use-toast"
-import { z } from "zod"
 
 export function LogIn() {
   const [credentials, setCredentials] = useState({
