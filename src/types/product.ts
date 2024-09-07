@@ -14,9 +14,12 @@ export const productSchema = z.object({
   id: z.string(),
   name: z.string(),
   description: z.string(),
-  quantity: z.number().min(0),
-  price: z.number().min(0),
-  discount: z.number().min(0).max(100),
+  quantity: z.number().min(0, { message: "Quantity must be greater than 0" }),
+  price: z.number().min(0, { message: "Price must be greater than 0" }),
+  discount: z
+    .number()
+    .min(0, { message: "Discount must be greater than 0" })
+    .max(100, { message: "Discount must be less than 100" }),
   category: categorySchema
 })
 export type Product = z.infer<typeof productSchema>
@@ -41,6 +44,18 @@ export const productUpdateSchema = productSchema
   })
 
 export type ProductUpdate = z.infer<typeof productUpdateSchema>
+
+export const productDialogSchema = productSchema
+  .omit({
+    id: true,
+    category: true
+  })
+  .extend({
+    id: z.string().optional(),
+    categoryId: z.string()
+  })
+
+export type ProductDialogType = z.infer<typeof productDialogSchema>
 
 export const productsSchema = z.array(productSchema)
 export type Products = z.infer<typeof productsSchema>
