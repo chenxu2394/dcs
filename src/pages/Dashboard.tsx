@@ -1,23 +1,23 @@
-import { Product } from "@/types"
+import { Product, UserRoles } from "@/types"
 import { Button } from "@/components/ui/button"
 import { useGetProducts, useDeleteProduct } from "@/features/use-products"
 import { useGetCategories } from "@/features/use-categories"
-
 import { v4 as uuidv4 } from "uuid"
 import {
   Table,
   TableBody,
-  TableCaption,
   TableCell,
-  TableFooter,
   TableHead,
   TableHeader,
   TableRow
 } from "@/components/ui/table"
+import { Switch } from "@/components/ui/switch"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Trash2Icon } from "lucide-react"
 import { ProductDialog } from "@/components/ProductDialog"
-import { useGetAllUsers, useDeleteUser } from "@/features/use-users"
+import { useGetAllUsers, useDeleteUser, useUpdateUser } from "@/features/use-users"
+import { useState, useContext } from "react"
+import { DecodedTokenContext } from "@/providers/decodedToken-provider"
 
 export function Dashboard() {
   const dummyProduct: Product = {
@@ -40,9 +40,40 @@ export function Dashboard() {
   const productDelete = useDeleteProduct()
   const [allCategories] = useGetCategories()
   const userDelete = useDeleteUser()
+  const userUpdate = useUpdateUser()
+  const { decodedToken } = useContext(DecodedTokenContext)
 
-  if (isLoading || isLoadingUsers) {
+  const [userRoles, setUserRoles] = useState(
+    users.reduce((acc, user) => {
+      acc[user.id] = user.userRole === UserRoles.ADMIN
+      return acc
+    }, {} as { [key: string]: boolean })
+  )
+
+  if (!decodedToken) {
+    return <div>You are not authorized to access this page</div>
+  }
+
+  const switchDisabled = users.reduce((acc, user) => {
+    acc[user.id] = user.id === decodedToken.user_id
+    return acc
+  }, {} as { [key: string]: boolean })
+
+  if (isLoading || isLoadingUsers || isLoadingCategories) {
     return <div>Loading...</div>
+  }
+
+  const handleRoleChange = (userId: string, isAdmin: boolean) => {
+    setUserRoles((prev) => ({
+      ...prev,
+      [userId]: isAdmin
+    }))
+    userUpdate.mutate({
+      id: userId,
+      name: users.find((user) => user.id === userId)?.name || "",
+      email: users.find((user) => user.id === userId)?.email || "",
+      userRole: isAdmin ? UserRoles.ADMIN : UserRoles.USER
+    })
   }
 
   return (
@@ -105,6 +136,7 @@ export function Dashboard() {
                 <TableHead>Email</TableHead>
                 <TableHead>Role</TableHead>
                 <TableHead>Actions</TableHead>
+                <TableHead>Admin?</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -122,6 +154,13 @@ export function Dashboard() {
                     >
                       <Trash2Icon />
                     </Button>
+                  </TableCell>
+                  <TableCell>
+                    <Switch
+                      checked={userRoles[user.id]}
+                      onCheckedChange={(checked) => handleRoleChange(user.id, checked)}
+                      disabled={switchDisabled[user.id]}
+                    />
                   </TableCell>
                 </TableRow>
               ))}

@@ -1,4 +1,9 @@
-import { RetrievedUserDetail, UserLoginType, UserRegisterType } from "@/types"
+import {
+  RetrievedUserDetail,
+  retrievedUserDetailSchema,
+  UserLoginType,
+  UserRegisterType
+} from "@/types"
 import api from "."
 
 const RESOURCE = "/users"
@@ -51,6 +56,23 @@ export default {
     }
     throw Error("Did not delete user")
   },
+
+  updateUser: async (user: RetrievedUserDetail): Promise<RetrievedUserDetail> => {
+    const res = await api.put(RESOURCE, user, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`
+      }
+    })
+    if (res.status !== 200) {
+      throw new Error("Error updating user")
+    }
+    const validatedUser = retrievedUserDetailSchema.safeParse(res.data)
+    if (!validatedUser.success) {
+      throw new Error("Error validating user")
+    }
+    return res.data
+  },
+
   getAllUsers: async (): Promise<RetrievedUserDetail[]> => {
     const res = await api.get(RESOURCE, {
       headers: {
