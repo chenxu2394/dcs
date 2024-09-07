@@ -1,14 +1,14 @@
 import { z } from "zod"
 
 export const userLoginSchema = z.object({
-  email: z.string().email(),
-  password: z.string().min(6)
+  email: z.string().email("Invalid email address"),
+  password: z.string().min(6, "Password must be at least 6 characters")
 })
 
 export type UserLoginType = z.infer<typeof userLoginSchema>
 
 export const userRegisterSchema = userLoginSchema.extend({
-  name: z.string().min(2)
+  name: z.string().min(2, "Name must be at least 2 characters")
 })
 
 export type UserRegisterType = z.infer<typeof userRegisterSchema>
@@ -28,12 +28,13 @@ const userRoleSchema = z.nativeEnum(UserRoles)
 
 export type UserRole = z.infer<typeof userRoleSchema>
 
-export const retrievedUserDetailSchema = z.object({
-  id: z.string(),
-  email: z.string().email(),
-  name: z.string().min(2),
-  userRole: userRoleSchema
-})
+export const retrievedUserDetailSchema = userRegisterSchema
+  .omit({
+    password: true
+  })
+  .extend({
+    userRole: userRoleSchema
+  })
 
 export type RetrievedUserDetail = z.infer<typeof retrievedUserDetailSchema>
 
