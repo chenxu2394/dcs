@@ -36,6 +36,21 @@ export default {
     }
     throw Error("Did not fetch user info")
   },
+  deleteUser: async (userId: string): Promise<void> => {
+    if (userId) {
+      const res = await api.delete(`${RESOURCE}/${userId}`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`
+        }
+      })
+      if (res.status !== 200) {
+        console.log(res.data)
+        throw new Error("Error deleting user")
+      }
+      return res.data
+    }
+    throw Error("Did not delete user")
+  },
   getAllUsers: async (): Promise<RetrievedUserDetail[]> => {
     const res = await api.get(RESOURCE, {
       headers: {

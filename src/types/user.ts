@@ -33,7 +33,8 @@ export const retrievedUserDetailSchema = userRegisterSchema
     password: true
   })
   .extend({
-    userRole: userRoleSchema
+    userRole: userRoleSchema,
+    id: z.string()
   })
 
 export type RetrievedUserDetail = z.infer<typeof retrievedUserDetailSchema>

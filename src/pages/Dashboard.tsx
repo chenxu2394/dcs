@@ -2,6 +2,7 @@ import { Product } from "@/types"
 import { Button } from "@/components/ui/button"
 import { useGetProducts, useDeleteProduct } from "@/features/use-products"
 import { useGetCategories } from "@/features/use-categories"
+
 import { v4 as uuidv4 } from "uuid"
 import {
   Table,
@@ -16,7 +17,7 @@ import {
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Trash2Icon } from "lucide-react"
 import { ProductDialog } from "@/components/ProductDialog"
-import { useGetAllUsers } from "@/features/use-users"
+import { useGetAllUsers, useDeleteUser } from "@/features/use-users"
 
 export function Dashboard() {
   const dummyProduct: Product = {
@@ -35,8 +36,10 @@ export function Dashboard() {
 
   const [products, isLoading] = useGetProducts()
   const [users, isLoadingUsers] = useGetAllUsers()
+  const [categories, isLoadingCategories] = useGetCategories()
   const productDelete = useDeleteProduct()
   const [allCategories] = useGetCategories()
+  const userDelete = useDeleteUser()
 
   if (isLoading || isLoadingUsers) {
     return <div>Loading...</div>
@@ -44,9 +47,10 @@ export function Dashboard() {
 
   return (
     <Tabs defaultValue="products">
-      <TabsList className="grid grid-cols-2">
+      <TabsList className="grid grid-cols-3">
         <TabsTrigger value="products">Products</TabsTrigger>
         <TabsTrigger value="users">Users</TabsTrigger>
+        <TabsTrigger value="categories">Categories</TabsTrigger>
       </TabsList>
       <TabsContent value="products">
         <div>
@@ -100,6 +104,7 @@ export function Dashboard() {
                 <TableHead>Name</TableHead>
                 <TableHead>Email</TableHead>
                 <TableHead>Role</TableHead>
+                <TableHead>Actions</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -108,6 +113,40 @@ export function Dashboard() {
                   <TableCell>{user.name}</TableCell>
                   <TableCell>{user.email}</TableCell>
                   <TableCell>{user.userRole}</TableCell>
+                  <TableCell className="flex gap-1">
+                    <Button
+                      // variant="destructive"
+                      onClick={() => {
+                        userDelete.mutate(user.id)
+                      }}
+                    >
+                      <Trash2Icon />
+                    </Button>
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </div>
+      </TabsContent>
+      <TabsContent value="categories">
+        <div>
+          <Table>
+            <TableHeader>
+              <TableRow>
+                <TableHead>Name</TableHead>
+                <TableHead>Description</TableHead>
+                <TableHead>Actions</TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              {categories.map((category) => (
+                <TableRow key={category.id}>
+                  <TableCell>{category.name}</TableCell>
+                  <TableCell>{category.description}</TableCell>
+                  <TableCell>
+                    <Button variant="destructive">Delete</Button>
+                  </TableCell>
                 </TableRow>
               ))}
             </TableBody>

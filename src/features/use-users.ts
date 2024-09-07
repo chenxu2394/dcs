@@ -131,3 +131,18 @@ export function useGetAllUsers(): [RetrievedUserDetail[], boolean, Error | null]
   })
   return [data, isLoading, error]
 }
+
+export function useDeleteUser() {
+  const queryClient = useQueryClient()
+
+  const mutation = useMutation({
+    mutationFn: (userId: string) => UserService.deleteUser(userId),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: getQueryKey(QUERY_KEY) })
+    },
+    onError: (error) => {
+      console.error(error)
+    }
+  })
+  return mutation
+}
