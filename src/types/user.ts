@@ -42,6 +42,7 @@ export type RetrievedUserDetail = z.infer<typeof retrievedUserDetailSchema>
 export const decodedTokenSchema = z.object({
   sub: z.string(),
   user_id: z.string(),
+  user_name: z.string(),
   user_role: userRoleSchema,
   iat: z.number(),
   exp: z.number()

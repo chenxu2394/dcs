@@ -8,6 +8,7 @@ import { LogIn } from "./pages/Login"
 import { Register } from "./pages/Register"
 import { Cart } from "./pages/Cart"
 import { ProtectedRoute } from "./routes/ProtectedRoute"
+import { Profile } from "./pages/Profile"
 
 const router = createBrowserRouter([
   {
@@ -27,11 +28,21 @@ const router = createBrowserRouter([
         element: <OneProduct />
       },
       {
-        path: "/admin",
+        path: "/profile",
+        element: <ProtectedRoute />,
+        children: [
+          {
+            path: "",
+            element: <Profile />
+          }
+        ]
+      },
+      {
+        path: "/dashboard",
         element: <ProtectedRoute forAdmin={true} />,
         children: [
           {
-            path: "dashboard",
+            path: "",
             element: <Dashboard />
           }
         ]

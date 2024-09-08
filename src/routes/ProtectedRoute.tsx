@@ -12,15 +12,16 @@ export const ProtectedRoute = ({ forAdmin }: Props) => {
   const token = localStorage.getItem("token")
 
   if (isLoading && token) {
-    console.log("Loading token...")
     return <div>Loading...</div>
   }
 
   if (!decodedToken) {
+    // No token found, redirect to login
     console.log("No token found, redirecting to login.")
     return <Navigate to="/login" replace={true} />
   }
   if (forAdmin && decodedToken.user_role !== UserRoles.ADMIN) {
+    // Not an admin, redirect to home
     console.log("Not an admin, redirecting to home.")
     return <Navigate to="/" replace={true} />
   }
