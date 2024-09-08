@@ -65,7 +65,7 @@ export function NavBar() {
               <Can
                 permission="DASHBOARD:VIEW"
                 permissionType="views"
-                yes={() => <NavMenuItemLink href="/dashboard">Dashboard</NavMenuItemLink>}
+                yes={() => <NavMenuItemLink href="/admin/dashboard">Dashboard</NavMenuItemLink>}
               />
               <Can
                 permission="LOGOUT:VIEW"

@@ -27,11 +27,11 @@ const router = createBrowserRouter([
         element: <OneProduct />
       },
       {
-        path: "/dashboard",
+        path: "/admin",
         element: <ProtectedRoute forAdmin={true} />,
         children: [
           {
-            path: "",
+            path: "dashboard",
             element: <Dashboard />
           }
         ]
