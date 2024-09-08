@@ -29,8 +29,8 @@ export function Dashboard() {
     discount: 0,
     category: {
       id: null,
-      name: null,
-      description: null
+      name: "",
+      description: ""
     }
   }
 
@@ -54,6 +54,8 @@ export function Dashboard() {
     }
   }, [users])
 
+  const sortedUsers = [...users].sort((a, b) => a.name.localeCompare(b.name))
+
   if (!decodedToken) {
     return <div>You are not authorized to access this page</div>
   }
@@ -66,6 +68,10 @@ export function Dashboard() {
   if (isLoading || isLoadingUsers || isLoadingCategories) {
     return <div>Loading...</div>
   }
+
+  const sortedProducts = [...products].sort((a, b) => a.name.localeCompare(b.name))
+
+  const sortedCategories = [...categories].sort((a, b) => a.name.localeCompare(b.name))
 
   const handleRoleChange = (userId: string, isAdmin: boolean) => {
     setUserRoles((prev) => ({
@@ -103,7 +109,7 @@ export function Dashboard() {
               </TableRow>
             </TableHeader>
             <TableBody>
-              {products.map((product) => (
+              {sortedProducts.map((product) => (
                 <TableRow key={product.id}>
                   <TableCell className="font-medium">{product.name}</TableCell>
                   <TableCell>{product.description}</TableCell>
@@ -144,7 +150,7 @@ export function Dashboard() {
               </TableRow>
             </TableHeader>
             <TableBody>
-              {users.map((user) => (
+              {sortedUsers.map((user) => (
                 <TableRow key={user.id}>
                   <TableCell>{user.name}</TableCell>
                   <TableCell>{user.email}</TableCell>
@@ -183,7 +189,7 @@ export function Dashboard() {
               </TableRow>
             </TableHeader>
             <TableBody>
-              {categories.map((category) => (
+              {sortedCategories.map((category) => (
                 <TableRow key={category.id}>
                   <TableCell>{category.name}</TableCell>
                   <TableCell>{category.description}</TableCell>
