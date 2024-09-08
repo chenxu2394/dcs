@@ -1,4 +1,11 @@
-import { Product, ProductCreate, ProductUpdate, productSchema, productsSchema } from "@/types"
+import {
+  Product,
+  ProductCreate,
+  ProductUpdate,
+  productSchema,
+  productApiResSchema,
+  ProductApiResLite
+} from "@/types"
 import api from "."
 
 const RESOURCE = "/products"
@@ -10,44 +17,70 @@ export default {
       throw new Error("Error fetching products")
     }
 
-    const validatedProducts = productsSchema.safeParse(res.data)
+    const validatedProducts = productApiResSchema.safeParse(res.data)
     if (!validatedProducts.success) {
       return []
     }
-    return res.data
+    return validatedProducts.data.content
   },
 
-  filterByName: async (name: string): Promise<Product[]> => {
+  filterByName: async (name: string): Promise<ProductApiResLite> => {
     const res = await api.get(`${RESOURCE}?q=${name}`)
     if (res.status !== 200) {
       throw new Error("Error fetching products")
     }
 
-    const validatedProducts = productsSchema.safeParse(res.data)
+    const validatedProducts = productApiResSchema.safeParse(res.data)
     if (!validatedProducts.success) {
-      return []
+      return {
+        content: [],
+        totalPages: 0,
+        totalElements: 0,
+        number: 0,
+        size: 0
+      }
     }
-    return res.data
+    return {
+      content: validatedProducts.data.content,
+      totalPages: validatedProducts.data.totalPages,
+      totalElements: validatedProducts.data.totalElements,
+      number: validatedProducts.data.number,
+      size: validatedProducts.data.size
+    }
   },
 
   filterBy: async (
     name: string,
     category: string,
     minPrice: number,
-    maxPrice: number
-  ): Promise<Product[]> => {
+    maxPrice: number,
+    page: number,
+    size: number
+  ): Promise<ProductApiResLite> => {
     const res = await api.get(
-      `${RESOURCE}?q=${name}&categories=${category}&minPrice=${minPrice}&maxPrice=${maxPrice}`
+      `${RESOURCE}?q=${name}&categories=${category}&minPrice=${minPrice}&maxPrice=${maxPrice}&page=${page}&size=${size}`
     )
     if (res.status !== 200) {
       throw new Error("Error fetching products")
     }
 
-    const validatedProducts = productsSchema.safeParse(res.data)
+    const validatedProducts = productApiResSchema.safeParse(res.data)
     if (!validatedProducts.success) {
-      return []
+      return {
+        content: [],
+        totalPages: 0,
+        totalElements: 0,
+        number: 0,
+        size: 0
+      }
     }
-    return res.data
+    return {
+      content: validatedProducts.data.content,
+      totalPages: validatedProducts.data.totalPages,
+      totalElements: validatedProducts.data.totalElements,
+      number: validatedProducts.data.number,
+      size: validatedProducts.data.size
+    }
   },
 
   getOne: async (id: string): Promise<Product> => {

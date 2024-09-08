@@ -5,8 +5,18 @@ import { UtilsBar } from "@/components/UtilsBar"
 import { useEffect, useState } from "react"
 import { useDebounce } from "@/features/useDebounce"
 import { useGetCategories } from "@/features/use-categories"
+import {
+  Pagination,
+  PaginationContent,
+  PaginationEllipsis,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious
+} from "@/components/ui/pagination"
 
 export function Products() {
+  const [page, setPage] = useState<number>(0)
   const [searchTerm, setSearchTerm] = useState<string>("")
   const debouncedSearchTerm = useDebounce(searchTerm, 200)
   const [selectedCategory, setSelectedCategory] = useState<string>("All Categories")
@@ -15,6 +25,7 @@ export function Products() {
   const [allProducts] = useGetProducts()
   const maxPrice = allProducts.reduce((acc, product) => Math.max(acc, product.price), 0)
   const [selectedPriceRange, setSelectedPriceRange] = useState<number[]>([0, maxPrice])
+  const [currentPage, setCurrentPage] = useState(1)
 
   useEffect(() => {
     if (selectedPriceRange[1] !== maxPrice) {
@@ -22,15 +33,27 @@ export function Products() {
     }
   }, [maxPrice])
 
+  const size_default = 9
+
   const debouncedSelectedPriceRange = useDebounce(selectedPriceRange, 200)
   const [priceLowerBound, priceUpperBound] = debouncedSelectedPriceRange
 
-  const [products, isLoading, error] = useFilterProducts(
-    debouncedSearchTerm,
-    selectedCategory,
-    priceLowerBound,
-    priceUpperBound
-  )
+  const [{ content, totalPages, totalElements, number, size }, isLoading, error] =
+    useFilterProducts(
+      debouncedSearchTerm,
+      selectedCategory,
+      priceLowerBound,
+      priceUpperBound,
+      page,
+      size_default
+    )
+
+  const pageNumbers = Array.from({ length: totalPages }, (_, i) => i + 1)
+
+  const handlePageChange = (newPage: number) => {
+    setCurrentPage(newPage)
+    setPage(newPage - 1)
+  }
 
   if (isLoading) {
     return <div>Loading...</div>
@@ -58,7 +81,33 @@ export function Products() {
               selectedPriceRange={selectedPriceRange}
               setSelectedPriceRange={setSelectedPriceRange}
             />
-            <ProductList products={products} />
+            <Pagination className="mt-4 mb-4" currentPage={currentPage} lastPage={totalPages}>
+              <PaginationContent>
+                <PaginationItem>
+                  <PaginationPrevious
+                    onClick={() => handlePageChange(currentPage - 1)}
+                    aria-disabled={currentPage === 1}
+                  />
+                </PaginationItem>
+                {pageNumbers.map((pageNumber) => (
+                  <PaginationItem key={pageNumber}>
+                    <PaginationLink
+                      onClick={() => handlePageChange(pageNumber)}
+                      isActive={currentPage === pageNumber}
+                    >
+                      {pageNumber}
+                    </PaginationLink>
+                  </PaginationItem>
+                ))}
+                <PaginationItem>
+                  <PaginationNext
+                    onClick={() => handlePageChange(currentPage + 1)}
+                    aria-disabled={currentPage === totalPages}
+                  />
+                </PaginationItem>
+              </PaginationContent>
+            </Pagination>
+            <ProductList products={content} />
           </div>
         )}
       />

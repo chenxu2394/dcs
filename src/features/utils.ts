@@ -10,7 +10,9 @@ export function getSearchQueryKey(
   searchTerm: string,
   category?: string,
   minPrice?: number,
-  maxPrice?: number
+  maxPrice?: number,
+  page?: number,
+  size?: number
 ) {
   return [
     QUERY_KEY,
@@ -18,6 +20,8 @@ export function getSearchQueryKey(
     searchTerm +
       (category ? `-${category}` : "") +
       (minPrice ? `-${minPrice}` : "") +
-      (maxPrice ? `-${maxPrice}` : "")
+      (maxPrice ? `-${maxPrice}` : "") +
+      (page ? `-${page}` : "") +
+      (size ? `-${size}` : "")
   ]
 }

@@ -56,3 +56,44 @@ export type ProductDialogType = z.infer<typeof productDialogSchema>
 
 export const productsSchema = z.array(productSchema)
 export type Products = z.infer<typeof productsSchema>
+
+const sortSchema = z.object({
+  empty: z.boolean(),
+  sorted: z.boolean(),
+  unsorted: z.boolean()
+})
+
+const pageableSchema = z.object({
+  pageNumber: z.number(),
+  pageSize: z.number(),
+  sort: sortSchema,
+  offset: z.number(),
+  paged: z.boolean(),
+  unpaged: z.boolean()
+})
+
+export const productApiResSchema = z.object({
+  content: z.array(productSchema),
+  pageable: pageableSchema,
+  last: z.boolean(),
+  totalPages: z.number(),
+  totalElements: z.number(),
+  first: z.boolean(),
+  size: z.number(),
+  number: z.number(),
+  sort: sortSchema,
+  numberOfElements: z.number(),
+  empty: z.boolean()
+})
+
+export type ProductApiRes = z.infer<typeof productApiResSchema>
+
+export const productApiResLiteSchema = productApiResSchema.pick({
+  content: true,
+  totalPages: true,
+  totalElements: true,
+  number: true,
+  size: true
+})
+
+export type ProductApiResLite = z.infer<typeof productApiResLiteSchema>

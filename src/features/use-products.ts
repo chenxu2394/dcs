@@ -1,5 +1,5 @@
 import ProductService from "@/api/products"
-import { Product, ProductCreate, ProductUpdate } from "@/types"
+import { Product, ProductCreate, ProductUpdate, ProductApiResLite } from "@/types"
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 import { getQueryKey, getSearchQueryKey } from "./utils"
 import { useToast } from "@/components/ui/use-toast"
@@ -32,15 +32,21 @@ export function useGetProducts(): [Product[], boolean, Error | null] {
   return [products, isLoading, error]
 }
 
-export function useSearchProducts(name: string): [Product[], boolean, Error | null] {
+export function useSearchProducts(name: string): [ProductApiResLite, boolean, Error | null] {
   const {
     data: products,
     isLoading,
     error
-  } = useQuery<Product[]>({
+  } = useQuery<ProductApiResLite>({
     queryKey: getSearchQueryKey(QUERY_KEY, name),
     queryFn: () => ProductService.filterByName(name),
-    initialData: []
+    initialData: {
+      content: [],
+      totalPages: 0,
+      totalElements: 0,
+      number: 0,
+      size: 0
+    }
   })
   return [products, isLoading, error]
 }
@@ -49,22 +55,40 @@ export function useFilterProducts(
   name: string,
   category: string,
   minPrice: number,
-  maxPrice: number
-): [Product[], boolean, Error | null] {
+  maxPrice: number,
+  page: number,
+  size: number
+): [ProductApiResLite, boolean, Error | null] {
   if (category === "All Categories") {
     category = ""
   }
   if (minPrice > maxPrice) {
-    return [[], false, new Error("Min price cannot be greater than max price")]
+    return [
+      {
+        content: [],
+        totalPages: 0,
+        totalElements: 0,
+        number: 0,
+        size: 0
+      },
+      false,
+      new Error("Min price cannot be greater than max price")
+    ]
   }
   const {
     data: products,
     isLoading,
     error
-  } = useQuery<Product[]>({
-    queryKey: getSearchQueryKey(QUERY_KEY, name, category, minPrice, maxPrice),
-    queryFn: () => ProductService.filterBy(name, category, minPrice, maxPrice),
-    initialData: []
+  } = useQuery<ProductApiResLite>({
+    queryKey: getSearchQueryKey(QUERY_KEY, name, category, minPrice, maxPrice, page, size),
+    queryFn: () => ProductService.filterBy(name, category, minPrice, maxPrice, page, size),
+    initialData: {
+      content: [],
+      totalPages: 0,
+      totalElements: 0,
+      number: 0,
+      size: 0
+    }
   })
   return [products, isLoading, error]
 }
