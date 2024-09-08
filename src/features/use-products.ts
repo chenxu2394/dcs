@@ -2,6 +2,7 @@ import ProductService from "@/api/products"
 import { Product, ProductCreate, ProductUpdate } from "@/types"
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 import { getQueryKey, getSearchQueryKey } from "./utils"
+import { useToast } from "@/components/ui/use-toast"
 
 const QUERY_KEY = "products"
 
@@ -69,21 +70,31 @@ export function useFilterProducts(
 }
 
 export function useCreateProduct() {
+  const { toast } = useToast()
   const queryClient = useQueryClient()
   const mutation = useMutation({
     mutationFn: (product: ProductCreate) => ProductService.createOne(product),
     onSuccess: () => {
       console.log(getQueryKey(QUERY_KEY))
       queryClient.invalidateQueries({ queryKey: getQueryKey(QUERY_KEY) })
+      toast({
+        title: "Product created",
+        description: "Product created successfully"
+      })
     },
     onError: (error) => {
       console.error(error)
+      toast({
+        title: "Error",
+        description: "Error creating product"
+      })
     }
   })
   return mutation
 }
 
 export function useDeleteProduct() {
+  const { toast } = useToast()
   const queryClient = useQueryClient()
 
   const mutation = useMutation({
@@ -92,9 +103,17 @@ export function useDeleteProduct() {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: getQueryKey(QUERY_KEY) })
+      toast({
+        title: "Product deleted",
+        description: "Product deleted successfully"
+      })
     },
     onError: (error) => {
       console.error(error)
+      toast({
+        title: "Error",
+        description: "Error deleting product"
+      })
     }
   })
 
@@ -102,6 +121,7 @@ export function useDeleteProduct() {
 }
 
 export function useUpdateProduct() {
+  const { toast } = useToast()
   const queryClient = useQueryClient()
 
   const mutation = useMutation({
@@ -110,9 +130,17 @@ export function useUpdateProduct() {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: getQueryKey(QUERY_KEY) })
+      toast({
+        title: "Product updated",
+        description: "Product updated successfully"
+      })
     },
     onError: (error) => {
       console.error(error)
+      toast({
+        title: "Error",
+        description: "Error updating product"
+      })
     }
   })
 
