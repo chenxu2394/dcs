@@ -28,7 +28,7 @@ export function Dashboard() {
     price: 100_000,
     discount: 0,
     category: {
-      id: null,
+      id: uuidv4(),
       name: "",
       description: ""
     }
@@ -54,7 +54,7 @@ export function Dashboard() {
     }
   }, [users])
 
-  const sortedUsers = [...users].sort((a, b) => a.name.localeCompare(b.name))
+  const sortedUsers = [...users].sort((a, b) => a.id.localeCompare(b.id))
 
   if (!decodedToken) {
     return <div>You are not authorized to access this page</div>
@@ -69,9 +69,9 @@ export function Dashboard() {
     return <div>Loading...</div>
   }
 
-  const sortedProducts = [...products].sort((a, b) => a.name.localeCompare(b.name))
+  const sortedProducts = [...products].sort((a, b) => a.id.localeCompare(b.name))
 
-  const sortedCategories = [...categories].sort((a, b) => a.name.localeCompare(b.name))
+  const sortedCategories = [...categories].sort((a, b) => a.id.localeCompare(b.name))
 
   const handleRoleChange = (userId: string, isAdmin: boolean) => {
     setUserRoles((prev) => ({
