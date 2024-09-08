@@ -134,14 +134,20 @@ export function useGetAllUsers(): [RetrievedUserDetail[], boolean, Error | null]
 
 export function useDeleteUser() {
   const queryClient = useQueryClient()
-
+  const { toast } = useToast()
   const mutation = useMutation({
     mutationFn: (userId: string) => UserService.deleteUser(userId),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: getQueryKey(QUERY_KEY) })
+      toast({
+        description: "User deleted"
+      })
     },
     onError: (error) => {
       console.error(error)
+      toast({
+        description: "User deletion failed"
+      })
     }
   })
   return mutation
@@ -149,14 +155,21 @@ export function useDeleteUser() {
 
 export function useUpdateUser() {
   const queryClient = useQueryClient()
+  const { toast } = useToast()
 
   const mutation = useMutation({
     mutationFn: (user: RetrievedUserDetail) => UserService.updateUser(user),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: getQueryKey(QUERY_KEY) })
+      toast({
+        description: "User updated"
+      })
     },
     onError: (error) => {
       console.error(error)
+      toast({
+        description: "User update failed"
+      })
     }
   })
   return mutation

@@ -16,7 +16,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Trash2Icon } from "lucide-react"
 import { ProductDialog } from "@/components/ProductDialog"
 import { useGetAllUsers, useDeleteUser, useUpdateUser } from "@/features/use-users"
-import { useState, useContext } from "react"
+import { useState, useContext, useEffect } from "react"
 import { DecodedTokenContext } from "@/providers/decodedToken-provider"
 
 export function Dashboard() {
@@ -42,13 +42,17 @@ export function Dashboard() {
   const userDelete = useDeleteUser()
   const userUpdate = useUpdateUser()
   const { decodedToken } = useContext(DecodedTokenContext)
+  const [userRoles, setUserRoles] = useState<{ [key: string]: boolean }>({})
 
-  const [userRoles, setUserRoles] = useState(
-    users.reduce((acc, user) => {
-      acc[user.id] = user.userRole === UserRoles.ADMIN
-      return acc
-    }, {} as { [key: string]: boolean })
-  )
+  useEffect(() => {
+    if (users.length > 0) {
+      const roles = users.reduce((acc, user) => {
+        acc[user.id] = user.userRole === UserRoles.ADMIN
+        return acc
+      }, {} as { [key: string]: boolean })
+      setUserRoles(roles)
+    }
+  }, [users])
 
   if (!decodedToken) {
     return <div>You are not authorized to access this page</div>
@@ -135,8 +139,8 @@ export function Dashboard() {
                 <TableHead>Name</TableHead>
                 <TableHead>Email</TableHead>
                 <TableHead>Role</TableHead>
-                <TableHead>Actions</TableHead>
                 <TableHead>Admin?</TableHead>
+                <TableHead>Actions</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -145,6 +149,13 @@ export function Dashboard() {
                   <TableCell>{user.name}</TableCell>
                   <TableCell>{user.email}</TableCell>
                   <TableCell>{user.userRole}</TableCell>
+                  <TableCell>
+                    <Switch
+                      checked={userRoles[user.id]}
+                      onCheckedChange={(checked) => handleRoleChange(user.id, checked)}
+                      disabled={switchDisabled[user.id]}
+                    />
+                  </TableCell>
                   <TableCell className="flex gap-1">
                     <Button
                       // variant="destructive"
@@ -154,13 +165,6 @@ export function Dashboard() {
                     >
                       <Trash2Icon />
                     </Button>
-                  </TableCell>
-                  <TableCell>
-                    <Switch
-                      checked={userRoles[user.id]}
-                      onCheckedChange={(checked) => handleRoleChange(user.id, checked)}
-                      disabled={switchDisabled[user.id]}
-                    />
                   </TableCell>
                 </TableRow>
               ))}
@@ -184,7 +188,9 @@ export function Dashboard() {
                   <TableCell>{category.name}</TableCell>
                   <TableCell>{category.description}</TableCell>
                   <TableCell>
-                    <Button variant="destructive">Delete</Button>
+                    <Button>
+                      <Trash2Icon />
+                    </Button>
                   </TableCell>
                 </TableRow>
               ))}
