@@ -10,6 +10,27 @@ export type Category = z.infer<typeof categorySchema>
 
 export const categoriesSchema = z.array(categorySchema)
 
+export const categoryCreateSchema = categorySchema.omit({
+  id: true
+})
+
+export type CategoryCreate = z.infer<typeof categoryCreateSchema>
+// update schema same as original schema
+export const categoryUpdateSchema = categorySchema
+
+export type CategoryUpdate = z.infer<typeof categoryUpdateSchema>
+
+// dialog can have id optional
+export const categoryDialogSchema = categorySchema
+  .omit({
+    id: true
+  })
+  .extend({
+    id: z.string().optional()
+  })
+
+export type CategoryDialogType = z.infer<typeof categoryDialogSchema>
+
 export const productSchema = z.object({
   id: z.string(),
   name: z.string().min(1, "Name is required"),

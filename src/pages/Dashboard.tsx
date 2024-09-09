@@ -1,7 +1,7 @@
-import { Product, UserRoles } from "@/types"
+import { Product, UserRoles, Category } from "@/types"
 import { Button } from "@/components/ui/button"
 import { useGetProducts, useDeleteProduct } from "@/features/use-products"
-import { useGetCategories } from "@/features/use-categories"
+import { useGetCategories, useDeleteCategory } from "@/features/use-categories"
 import { v4 as uuidv4 } from "uuid"
 import {
   Table,
@@ -15,6 +15,7 @@ import { Switch } from "@/components/ui/switch"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Trash2Icon } from "lucide-react"
 import { ProductDialog } from "@/components/ProductDialog"
+import { CategoryDialog } from "@/components/CategoryDialog"
 import { useGetAllUsers, useDeleteUser, useUpdateUser } from "@/features/use-users"
 import { useState, useContext, useEffect } from "react"
 import { DecodedTokenContext } from "@/providers/decodedToken-provider"
@@ -33,11 +34,17 @@ export function Dashboard() {
       description: ""
     }
   }
+  const dummyCategory: Category = {
+    id: uuidv4(),
+    name: "",
+    description: ""
+  }
 
   const [products, isLoading] = useGetProducts()
   const [users, isLoadingUsers] = useGetAllUsers()
   const [categories, isLoadingCategories] = useGetCategories()
   const productDelete = useDeleteProduct()
+  const categoryDelete = useDeleteCategory()
   const [allCategories] = useGetCategories()
   const userDelete = useDeleteUser()
   const userUpdate = useUpdateUser()
@@ -180,6 +187,7 @@ export function Dashboard() {
       </TabsContent>
       <TabsContent value="categories">
         <div>
+          <CategoryDialog category={dummyCategory} forCreate={true} />
           <Table>
             <TableHeader>
               <TableRow>
@@ -193,10 +201,15 @@ export function Dashboard() {
                 <TableRow key={category.id}>
                   <TableCell>{category.name}</TableCell>
                   <TableCell>{category.description}</TableCell>
-                  <TableCell>
-                    <Button>
+                  <TableCell className="flex gap-1">
+                    <Button
+                      onClick={() => {
+                        categoryDelete.mutate(category.id)
+                      }}
+                    >
                       <Trash2Icon />
                     </Button>
+                    <CategoryDialog category={category} forCreate={false} />
                   </TableCell>
                 </TableRow>
               ))}
