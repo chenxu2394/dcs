@@ -67,11 +67,6 @@ export function Dashboard() {
     return <div>You are not authorized to access this page</div>
   }
 
-  const switchDisabled = users.reduce((acc, user) => {
-    acc[user.id] = user.id === decodedToken.user_id
-    return acc
-  }, {} as { [key: string]: boolean })
-
   if (isLoading || isLoadingUsers || isLoadingCategories) {
     return <div>Loading...</div>
   }
@@ -166,12 +161,13 @@ export function Dashboard() {
                     <Switch
                       checked={userRoles[user.id]}
                       onCheckedChange={(checked) => handleRoleChange(user.id, checked)}
-                      disabled={switchDisabled[user.id]}
+                      disabled={user.id === decodedToken.user_id}
                     />
                   </TableCell>
                   <TableCell className="flex gap-1">
                     <Button
                       // variant="destructive"
+                      disabled={user.id === decodedToken.user_id}
                       onClick={() => {
                         userDelete.mutate(user.id)
                       }}
