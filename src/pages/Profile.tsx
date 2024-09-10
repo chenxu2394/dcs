@@ -2,6 +2,7 @@ import { useContext } from "react"
 import { DecodedTokenContext } from "@/providers/decodedToken-provider"
 import { Navigate } from "react-router-dom"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { Spinner } from "@/components/ui/spinner"
 
 export function Profile() {
   const { decodedToken } = useContext(DecodedTokenContext)
@@ -12,7 +13,7 @@ export function Profile() {
   }
 
   if (!decodedToken) {
-    return <div>Loading...</div>
+    return <Spinner size="large" className="h-screen items-center justify-center" />
   }
 
   return (

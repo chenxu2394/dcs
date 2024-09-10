@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button"
 import { CartContext } from "@/providers/cart-provider"
 import { useContext } from "react"
 import { useToast } from "@/components/ui/use-toast"
+import { Spinner } from "@/components/ui/spinner"
 
 export function OneProduct() {
   const { id = "" } = useParams<{ id: string }>()
@@ -22,7 +23,7 @@ export function OneProduct() {
   }
 
   if (isLoading) {
-    return <p>Loading...</p>
+    return <Spinner size="large" className="h-screen items-center justify-center" />
   }
 
   if (product === undefined) {

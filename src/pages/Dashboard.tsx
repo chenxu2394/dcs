@@ -19,6 +19,7 @@ import { CategoryDialog } from "@/components/CategoryDialog"
 import { useGetAllUsers, useDeleteUser, useUpdateUser } from "@/features/use-users"
 import { useState, useContext, useEffect } from "react"
 import { DecodedTokenContext } from "@/providers/decodedToken-provider"
+import { Spinner } from "@/components/ui/spinner"
 
 export function Dashboard() {
   const dummyProduct: Product = {
@@ -52,7 +53,7 @@ export function Dashboard() {
   const [userRoles, setUserRoles] = useState<{ [key: string]: boolean }>({})
 
   useEffect(() => {
-    if (users.length > 0) {
+    if (users && users.length > 0) {
       const roles = users.reduce((acc, user) => {
         acc[user.id] = user.userRole === UserRoles.ADMIN
         return acc
@@ -61,14 +62,13 @@ export function Dashboard() {
     }
   }, [users])
 
+  if (isLoading || isLoadingUsers || isLoadingCategories) {
+    return <Spinner size="large" className="h-screen items-center justify-center" />
+  }
   const sortedUsers = [...users].sort((a, b) => a.id.localeCompare(b.id))
 
   if (!decodedToken) {
     return <div>You are not authorized to access this page</div>
-  }
-
-  if (isLoading || isLoadingUsers || isLoadingCategories) {
-    return <div>Loading...</div>
   }
 
   const sortedProducts = [...products].sort((a, b) => a.id.localeCompare(b.name))

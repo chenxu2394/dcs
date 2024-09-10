@@ -14,15 +14,16 @@ import {
   PaginationNext,
   PaginationPrevious
 } from "@/components/ui/pagination"
+import { Spinner } from "@/components/ui/spinner"
 
 export function Products() {
   const [page, setPage] = useState<number>(0)
   const [searchTerm, setSearchTerm] = useState<string>("")
   const debouncedSearchTerm = useDebounce(searchTerm, 200)
   const [selectedCategory, setSelectedCategory] = useState<string>("All Categories")
-  const [allCategories] = useGetCategories()
+  const [allCategories, isLoadingCategories, errorCategories] = useGetCategories()
 
-  const [allProducts] = useGetProducts()
+  const [allProducts, isLoadingProducts, errorProducts] = useGetProducts()
   const maxPrice = allProducts.reduce((acc, product) => Math.max(acc, product.price), 0)
   const [selectedPriceRange, setSelectedPriceRange] = useState<number[]>([0, maxPrice])
   const [currentPage, setCurrentPage] = useState(1)
@@ -55,8 +56,8 @@ export function Products() {
     setPage(newPage - 1)
   }
 
-  if (isLoading) {
-    return <div>Loading...</div>
+  if (isLoading || isLoadingCategories || isLoadingProducts) {
+    return <Spinner size="large" className="h-screen items-center justify-center" />
   }
 
   if (error) {
