@@ -24,7 +24,11 @@ export function Products() {
   const [allCategories, isLoadingCategories, errorCategories] = useGetCategories()
 
   const [allProducts, isLoadingProducts, errorProducts] = useGetProducts()
-  const maxPrice = allProducts.reduce((acc, product) => Math.max(acc, product.price), 0)
+  const maxPrice =
+    isLoadingProducts || !allProducts.length
+      ? 0
+      : allProducts.reduce((acc, product) => Math.max(acc, product.price), 0)
+
   const [selectedPriceRange, setSelectedPriceRange] = useState<number[]>([0, maxPrice])
   const [currentPage, setCurrentPage] = useState(1)
 
@@ -39,15 +43,22 @@ export function Products() {
   const debouncedSelectedPriceRange = useDebounce(selectedPriceRange, 200)
   const [priceLowerBound, priceUpperBound] = debouncedSelectedPriceRange
 
-  const [{ content, totalPages, totalElements, number, size }, isLoading, error] =
-    useFilterProducts(
-      debouncedSearchTerm,
-      selectedCategory,
-      priceLowerBound,
-      priceUpperBound,
-      page,
-      size_default
-    )
+  const [filterResult, isLoading, error] = useFilterProducts(
+    debouncedSearchTerm,
+    selectedCategory,
+    priceLowerBound,
+    priceUpperBound,
+    page,
+    size_default
+  )
+
+  const {
+    content = [],
+    totalPages = 0,
+    totalElements = 0,
+    number = 0,
+    size = size_default
+  } = filterResult || {}
 
   const pageNumbers = Array.from({ length: totalPages }, (_, i) => i + 1)
 
