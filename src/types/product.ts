@@ -38,7 +38,8 @@ export const productSchema = z.object({
   quantity: z.coerce.number().min(0, "Quantity must be a positive number"),
   price: z.coerce.number().min(0, "Price must be a positive number"),
   discount: z.coerce.number().min(0).max(100, "Discount must be between 0 and 100"),
-  category: categorySchema
+  category: categorySchema,
+  imageUrls: z.array(z.string())
 })
 export type Product = z.infer<typeof productSchema>
 
