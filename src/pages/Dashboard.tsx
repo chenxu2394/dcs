@@ -33,7 +33,8 @@ export function Dashboard() {
       id: uuidv4(),
       name: "",
       description: ""
-    }
+    },
+    imageUrls: []
   }
   const dummyCategory: Category = {
     id: uuidv4(),
