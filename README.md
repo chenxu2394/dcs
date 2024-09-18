@@ -3,7 +3,7 @@
 ## Description
 
 This is a frontend application for a digital coins store. It started as a simple e-commerce website which I built during my internship at Integrify.
-The backend is a java application built with Spring Boot [Repo here](https://github.com/chenxu2394/fs18_java_backend). and the database is a PostgreSQL database hosted on Supabase.
+The backend is a java application built with Spring Boot ([Repo here](https://github.com/chenxu2394/fs18_java_backend)). And the database is a PostgreSQL database hosted on Supabase.
 
 ## Live Demo
 
@@ -14,11 +14,8 @@ The backend is a java application built with Spring Boot [Repo here](https://git
 - React
 - TypeScript
 - Tailwind
-- Shadcn
-- tanstack/react-query
-- react-router
-
-The current template tech stack: React, TypeScript, Tailwind, Shadcn, tanstack/react-query.
+- Shadcn/UI
+- Tanstack/react-query
 
 ## Features
 
