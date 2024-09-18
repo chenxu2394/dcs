@@ -21,11 +21,11 @@ export function Products() {
   const [searchTerm, setSearchTerm] = useState<string>("")
   const debouncedSearchTerm = useDebounce(searchTerm, 200)
   const [selectedCategory, setSelectedCategory] = useState<string>("All Categories")
-  const [allCategories, isLoadingCategories, errorCategories] = useGetCategories()
+  const [allCategories, isFetchingCategories, errorCategories] = useGetCategories()
 
-  const [allProducts, isLoadingProducts, errorProducts] = useGetProducts()
+  const [allProducts, isFetchingProducts, errorProducts] = useGetProducts()
   const maxPrice =
-    isLoadingProducts || !allProducts.length
+    isFetchingProducts || !allProducts.length
       ? 0
       : allProducts.reduce((acc, product) => Math.max(acc, product.price), 0)
 
@@ -43,7 +43,7 @@ export function Products() {
   const debouncedSelectedPriceRange = useDebounce(selectedPriceRange, 200)
   const [priceLowerBound, priceUpperBound] = debouncedSelectedPriceRange
 
-  const [filterResult, isLoading, error] = useFilterProducts(
+  const [filterResult, isFetching, error] = useFilterProducts(
     debouncedSearchTerm,
     selectedCategory,
     priceLowerBound,
@@ -67,7 +67,7 @@ export function Products() {
     setPage(newPage - 1)
   }
 
-  if (isLoading || isLoadingCategories || isLoadingProducts) {
+  if (isFetching || isFetchingCategories || isFetchingProducts) {
     return <Spinner size="large" className="h-screen items-center justify-center" />
   }
 

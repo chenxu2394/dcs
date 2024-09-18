@@ -42,7 +42,7 @@ export function Dashboard() {
     description: ""
   }
 
-  const [products, isLoading] = useGetProducts()
+  const [products, isFetching] = useGetProducts()
   const [users, isLoadingUsers] = useGetAllUsers()
   const [categories, isLoadingCategories] = useGetCategories()
   const productDelete = useDeleteProduct()
@@ -63,7 +63,7 @@ export function Dashboard() {
     }
   }, [users])
 
-  if (isLoading || isLoadingUsers || isLoadingCategories) {
+  if (isFetching || isLoadingUsers || isLoadingCategories) {
     return <Spinner size="large" className="h-screen items-center justify-center" />
   }
   const sortedUsers = [...users].sort((a, b) => a.id.localeCompare(b.id))

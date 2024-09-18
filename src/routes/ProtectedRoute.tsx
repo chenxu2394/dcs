@@ -8,10 +8,10 @@ interface Props {
 }
 
 export const ProtectedRoute = ({ forAdmin }: Props) => {
-  const { isLoading, decodedToken } = useContext(DecodedTokenContext)
+  const { isFetching, decodedToken } = useContext(DecodedTokenContext)
   const token = localStorage.getItem("token")
 
-  if (isLoading && token) {
+  if (isFetching && token) {
     return <div>Loading...</div>
   }
 

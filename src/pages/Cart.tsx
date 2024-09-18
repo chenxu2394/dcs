@@ -15,10 +15,10 @@ import { useContext } from "react"
 import { Spinner } from "@/components/ui/spinner"
 
 export function Cart() {
-  const [products, isLoading] = useGetProducts()
+  const [products, isFetching] = useGetProducts()
   const { cart, removeFromCart } = useContext(CartContext)
   console.log(cart)
-  if (isLoading) {
+  if (isFetching) {
     return <Spinner size="large" className="h-screen items-center justify-center" />
   }
   return (

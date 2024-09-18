@@ -111,7 +111,7 @@ export function useGetUserDetails(
   }
   const {
     data: user,
-    isLoading,
+    isFetching,
     error,
     refetch
   } = useQuery({
@@ -120,16 +120,16 @@ export function useGetUserDetails(
     enabled: options.enabled,
     initialData: { email: "", id: "", userRole: UserRoles.PUBLIC, name: "" }
   })
-  return [user, isLoading, error, refetch]
+  return [user, isFetching, error, refetch]
 }
 
 export function useGetAllUsers(): [RetrievedUserDetail[], boolean, Error | null] {
-  const { data, isLoading, error } = useQuery({
+  const { data, isFetching, error } = useQuery({
     queryKey: getQueryKey(QUERY_KEY),
     queryFn: () => UserService.getAllUsers(),
     initialData: []
   })
-  return [data, isLoading, error]
+  return [data, isFetching, error]
 }
 
 export function useDeleteUser() {

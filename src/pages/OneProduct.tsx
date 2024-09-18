@@ -9,7 +9,7 @@ import { Spinner } from "@/components/ui/spinner"
 
 export function OneProduct() {
   const { id = "" } = useParams<{ id: string }>()
-  const [product, isLoading] = useGetOneProduct(id)
+  const [product, isFetching] = useGetOneProduct(id)
   const { addToCart } = useContext(CartContext)
   const { toast } = useToast()
 
@@ -22,7 +22,7 @@ export function OneProduct() {
     }
   }
 
-  if (isLoading) {
+  if (isFetching) {
     return <Spinner size="large" className="h-screen items-center justify-center" />
   }
 

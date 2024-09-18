@@ -18,7 +18,7 @@ export function ProductCard({ product }: ProductCardProps) {
         <img
           src={product.imageUrls[0]}
           alt={product.name}
-          className="w-1/2 h-auto object-contain"
+          className="w-1/3 h-auto object-contain"
         />
       </div>
       <CardContent className="p-6 space-y-4">

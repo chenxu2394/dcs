@@ -9,33 +9,33 @@ const QUERY_KEY = "products"
 export function useGetOneProduct(id: string): [Product | undefined, boolean, Error | null] {
   const {
     data: product,
-    isLoading,
+    isFetching,
     error
   } = useQuery<Product>({
     queryKey: getQueryKey(id),
     queryFn: () => ProductService.getOne(id)
     // enabled: !!id
   })
-  return [product, isLoading, error]
+  return [product, isFetching, error]
 }
 
 export function useGetProducts(): [Product[], boolean, Error | null] {
   const {
     data: products,
-    isLoading,
+    isFetching,
     error
   } = useQuery<Product[]>({
     queryKey: getQueryKey(QUERY_KEY),
     queryFn: ProductService.getAll,
     initialData: []
   })
-  return [products, isLoading, error]
+  return [products, isFetching, error]
 }
 
 export function useSearchProducts(name: string): [ProductApiResLite, boolean, Error | null] {
   const {
     data: products,
-    isLoading,
+    isFetching,
     error
   } = useQuery<ProductApiResLite>({
     queryKey: getSearchQueryKey(QUERY_KEY, name),
@@ -48,7 +48,7 @@ export function useSearchProducts(name: string): [ProductApiResLite, boolean, Er
       size: 0
     }
   })
-  return [products, isLoading, error]
+  return [products, isFetching, error]
 }
 
 export function useFilterProducts(
@@ -77,7 +77,7 @@ export function useFilterProducts(
   }
   const {
     data: products,
-    isLoading,
+    isFetching,
     error
   } = useQuery<ProductApiResLite>({
     queryKey: getSearchQueryKey(QUERY_KEY, name, category, minPrice, maxPrice, page, size),
@@ -90,7 +90,7 @@ export function useFilterProducts(
       size: 0
     }
   })
-  return [products, isLoading, error]
+  return [products, isFetching, error]
 }
 
 export function useCreateProduct() {

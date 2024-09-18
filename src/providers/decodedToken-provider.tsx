@@ -5,14 +5,14 @@ import { isTokenValid } from "@/lib/utils"
 import router from "@/routers"
 
 export type DecodedTokenContextType = {
-  isLoading: boolean
+  isFetching: boolean
   decodedToken: DecodedToken | null
   saveDecodedToken: (token: Token) => void
   removeDecodedToken: () => void
 }
 
 export const DecodedTokenContext = createContext<DecodedTokenContextType>({
-  isLoading: true,
+  isFetching: true,
   decodedToken: null,
   saveDecodedToken: () => {
     // intentionally left empty
@@ -24,7 +24,7 @@ export const DecodedTokenContext = createContext<DecodedTokenContextType>({
 
 export function DecodedTokenProvider({ children }: { children: React.ReactNode }) {
   const [decodedToken, setDecodedToken] = useState<DecodedToken | null>(null)
-  const [isLoading, setIsLoading] = useState(true)
+  const [isFetching, setIsLoading] = useState(true)
 
   useEffect(() => {
     const token = localStorage.getItem("token")
@@ -58,7 +58,7 @@ export function DecodedTokenProvider({ children }: { children: React.ReactNode }
 
   const providerValue = useMemo(
     () => ({
-      isLoading,
+      isFetching,
       decodedToken,
       saveDecodedToken,
       removeDecodedToken

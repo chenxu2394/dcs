@@ -9,14 +9,14 @@ const QUERY_KEY = "categories"
 export function useGetCategories(): [Category[], boolean, Error | null] {
   const {
     data: categories,
-    isLoading,
+    isFetching,
     error
   } = useQuery<Category[]>({
     queryKey: getQueryKey(QUERY_KEY),
     queryFn: CategoryService.getAll,
     initialData: []
   })
-  return [categories, isLoading, error]
+  return [categories, isFetching, error]
 }
 
 export function useCreateCategory() {
