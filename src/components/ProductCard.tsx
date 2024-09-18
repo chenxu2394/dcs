@@ -21,10 +21,13 @@ export function ProductCard({ product }: ProductCardProps) {
           className="w-1/3 h-auto object-contain"
         />
       </div>
-      <CardContent className="p-6 space-y-4">
+      <CardContent>
         <div>
           <CardTitle className="text-2xl font-bold">{product.name}</CardTitle>
-          <CardDescription className="text-gray-500">{product.description}</CardDescription>
+          <CardDescription className="text-gray-500">
+            {product.description.slice(0, 50)}
+            {product.description.length > 50 && "..."}
+          </CardDescription>
         </div>
         <CardFooter>€{product.price}</CardFooter>
       </CardContent>

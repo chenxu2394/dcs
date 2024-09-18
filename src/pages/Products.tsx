@@ -38,7 +38,7 @@ export function Products() {
     }
   }, [maxPrice])
 
-  const size_default = 9
+  const size_default = 6 // Default number of products per page
 
   const debouncedSelectedPriceRange = useDebounce(selectedPriceRange, 200)
   const [priceLowerBound, priceUpperBound] = debouncedSelectedPriceRange
