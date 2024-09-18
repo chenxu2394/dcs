@@ -44,14 +44,14 @@ export function NavBar() {
   return (
     <div className="flex justify-between items-center w-full p-2 shadow-md">
       <Link to="/" className="ml-4 font-bold text-lg no-underline">
-        ECM
+        DCS
       </Link>
       <div className="flex-grow flex justify-center">
         <NavigationMenu>
           <NavigationMenuList>
             <NavigationMenuItem className="flex">
               <NavMenuItemLink href="/">Home</NavMenuItemLink>
-              <NavMenuItemLink href="/products">Products</NavMenuItemLink>
+              <NavMenuItemLink href="/products">Coins</NavMenuItemLink>
               <Can
                 permission="LOGIN:VIEW"
                 permissionType="views"
