@@ -18,7 +18,12 @@ export default {
     return res.data
   },
   createOne: async (category: CategoryCreate): Promise<Category> => {
-    const res = await api.post(RESOURCE, category)
+    const token = localStorage.getItem("token")
+    const res = await api.post(RESOURCE, category, {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    })
     if (res.status !== 200) {
       throw new Error("Error creating category")
     }
@@ -29,7 +34,12 @@ export default {
     return res.data
   },
   updateOne: async (category: CategoryUpdate): Promise<Category> => {
-    const res = await api.put(RESOURCE, category)
+    const token = localStorage.getItem("token")
+    const res = await api.put(RESOURCE, category, {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    })
     if (res.status !== 200) {
       throw new Error("Error updating category")
     }

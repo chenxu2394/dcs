@@ -98,7 +98,12 @@ export default {
   },
 
   createOne: async (product: ProductCreate): Promise<Product> => {
-    const res = await api.post(RESOURCE, product)
+    const token = localStorage.getItem("token")
+    const res = await api.post(RESOURCE, product, {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    })
 
     if (res.status !== 200) {
       throw new Error("Error posting product")
@@ -113,14 +118,12 @@ export default {
   },
 
   deleteOne: async (id: string) => {
-    const res = await api.delete(`${RESOURCE}/${id}`)
-
-    //TODO: Delete with authorization
-    // const res = await api.delete(`${RESOURCE}/${id}`, {
-    //   headers: {
-    //     Authorization: `Bearer ${token}`
-    //   }
-    // })
+    const token = localStorage.getItem("token")
+    const res = await api.delete(`${RESOURCE}/${id}`, {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    })
 
     if (res.status !== 204) {
       throw Error("somehting went wrong")
@@ -128,8 +131,12 @@ export default {
   },
 
   updateOne: async (product: ProductUpdate): Promise<Product> => {
-    //TODO: Update with authorization
-    const res = await api.put(RESOURCE, product)
+    const token = localStorage.getItem("token")
+    const res = await api.put(RESOURCE, product, {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    })
 
     if (res.status !== 200) {
       throw Error("somehting went wrong")
