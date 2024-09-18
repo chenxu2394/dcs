@@ -13,24 +13,21 @@ export function ProductCard({ product }: ProductCardProps) {
   }
 
   return (
-    <Card onClick={handleCardClick}>
-      <div className="flex justify-center p-4">
+    <Card onClick={handleCardClick} className="grid grid-rows-2 h-auto">
+      <div className="flex items-center justify-center p-4">
         <img
           src={product.imageUrls[0]}
           alt={product.name}
           className="w-1/3 h-auto object-contain"
         />
       </div>
-      <CardContent>
-        <div>
-          <CardTitle className="text-2xl font-bold">{product.name}</CardTitle>
-          <CardDescription className="text-gray-500">
-            {product.description.slice(0, 50)}
-            {product.description.length > 50 && "..."}
-          </CardDescription>
-        </div>
-        <CardFooter>€{product.price}</CardFooter>
-      </CardContent>
+      <div className="flex flex-col p-4">
+        <CardTitle className="text-lg font-bold mb-2">{product.name}</CardTitle>
+        <CardDescription className="text-sm text-gray-500 mb-2 line-clamp-2 overflow-hidden">
+          {product.description}
+        </CardDescription>
+        <div className="text-lg font-semibold mt-auto">€{product.price}</div>
+      </div>
     </Card>
   )
 }
