@@ -6,7 +6,7 @@ interface Props {
 
 export function SearchBox({ setSearchTerm }: Props) {
   return (
-    <div className="flex justify-center items-center w-full max-w-sm space-x-2 rounded-lg border  dark:bg-gray-900 px-3.5 py-2">
+    <div className="flex justify-center items-center w-full   rounded-lg border  dark:bg-gray-900  py-1">
       <Input
         type="search"
         placeholder="Search"
