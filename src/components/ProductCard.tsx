@@ -13,7 +13,7 @@ export function ProductCard({ product }: ProductCardProps) {
   }
 
   return (
-    <Card onClick={handleCardClick} className="grid grid-rows-2 h-auto">
+    <Card onClick={handleCardClick} className="grid grid-rows-2 h-auto cursor-pointer">
       <div className="flex items-center justify-center p-4">
         <img
           src={product.imageUrls[0]}
