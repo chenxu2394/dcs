@@ -48,7 +48,7 @@ export function LogIn() {
       <div className="flex-1 flex flex-col justify-center px-4 sm:px-6 lg:flex-none lg:px-20 xl:px-24">
         <div className="mx-auto w-full max-w-sm lg:w-96">
           <div>
-            <h2 className="mt-6 text-3xl font-extrabold text-gray-900 text-center">
+            <h2 className="mt-6 text-3xl font-extrabold text-gray-900 text-center dark:text-white">
               Sign in to DCS
             </h2>
           </div>
