@@ -1,24 +1,31 @@
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "./ui/card"
 import { Product } from "../types"
 import { useNavigate } from "react-router-dom"
+import { useState } from "react"
 
 interface ProductCardProps {
   product: Product
 }
 
 export function ProductCard({ product }: ProductCardProps) {
+  const [isHovered, setIsHovered] = useState<boolean>(false)
   const navigate = useNavigate()
   const handleCardClick = () => {
     navigate(`/products/${product.id}`)
   }
 
   return (
-    <Card onClick={handleCardClick} className="grid grid-rows-2 h-auto cursor-pointer">
+    <Card
+      onClick={handleCardClick}
+      className="grid grid-rows-2 h-auto cursor-pointer"
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+    >
       <div className="flex items-center justify-center p-4">
         <img
-          src={product.imageUrls[0]}
+          src={isHovered ? product.imageUrls[1] : product.imageUrls[0]}
           alt={product.name}
-          className="w-1/3 h-auto object-contain"
+          className="w-1/3 h-32 object-contain"
         />
       </div>
       <div className="flex flex-col p-4">
