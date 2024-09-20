@@ -83,6 +83,7 @@ export function Products() {
         yes={() => (
           <div>
             <UtilsBar
+              searchTerm={searchTerm}
               setSearchTerm={setSearchTerm}
               allCategoryNames={allCategories
                 .map((c) => c.name)

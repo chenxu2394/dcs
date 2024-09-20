@@ -4,6 +4,7 @@ import { Card } from "./ui/card"
 import { PriceSelector } from "./PriceSelector"
 
 interface Props {
+  searchTerm: string
   setSearchTerm: (searchTerm: string) => void
   allCategoryNames: string[]
   selectedCategory: string
@@ -14,6 +15,7 @@ interface Props {
 }
 
 export function UtilsBar({
+  searchTerm,
   setSearchTerm,
   allCategoryNames,
   selectedCategory,
@@ -27,7 +29,7 @@ export function UtilsBar({
       <div className="grid grid-cols-1 lg:grid-cols-2">
         <div className="flex justify-center">
           <div className="w-full max-w-sm h-10">
-            <SearchBox setSearchTerm={setSearchTerm} />
+            <SearchBox searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
           </div>
         </div>
         <div className="flex justify-center">
