@@ -44,30 +44,78 @@ export function LogIn() {
   }
 
   return (
-    <>
-      <div className="flex flex-col items-center justify-center h-screen">
-        <h3 className="text-3xl">Welcome, bro/sis!</h3>
-        <div className="p-2">
-          <form onSubmit={handleLogin} className="w-full space-y-6">
-            <div>
-              <Input name="email" placeholder="Your email" onChange={handleChange} />
-              {errors.email && <span className="text-red-500">{errors.email}</span>}
+    <div className="flex flex-col items-center justify-center h-full">
+      <div className="flex-1 flex flex-col justify-center px-4 sm:px-6 lg:flex-none lg:px-20 xl:px-24">
+        <div className="mx-auto w-full max-w-sm lg:w-96">
+          <div>
+            <h2 className="mt-6 text-3xl font-extrabold text-gray-900 text-center">
+              Sign in to DCS
+            </h2>
+          </div>
+          <div className="mt-8">
+            <div className="mt-6">
+              <div className="space-y-4">
+                <div>
+                  <Button className="w-full bg-[#4285F4] text-white" variant="default">
+                    Sign in with Google
+                  </Button>
+                </div>
+                <div>
+                  <Button className="w-full bg-[#1DA1F2] text-white" variant="default">
+                    Sign in with X/Twitter
+                  </Button>
+                </div>
+                <div className="relative">
+                  <div className="absolute inset-0 flex items-center" aria-hidden="true">
+                    <div className="w-full border-t border-gray-300" />
+                  </div>
+                  <div className="relative flex justify-center text-sm">
+                    <span className="px-2 bg-white text-gray-500">Or</span>
+                  </div>
+                </div>
+
+                <form onSubmit={handleLogin} className="w-full space-y-4">
+                  <div>
+                    <label htmlFor="email" className="sr-only">
+                      Email address
+                    </label>
+                    <Input
+                      id="email"
+                      name="email"
+                      type="email"
+                      autoComplete="email"
+                      required
+                      placeholder="Email address"
+                      onChange={handleChange}
+                    />
+                    {errors.email && <span className="text-red-500">{errors.email}</span>}
+                  </div>
+                  <div>
+                    <label htmlFor="password" className="sr-only">
+                      Password
+                    </label>
+                    <Input
+                      id="password"
+                      name="password"
+                      type="password"
+                      autoComplete="current-password"
+                      required
+                      placeholder="Password"
+                      onChange={handleChange}
+                    />
+                    {errors.password && <span className="text-red-500">{errors.passwor}</span>}
+                  </div>
+                  <div>
+                    <Button className="w-full bg-[#4F46E5] text-white" variant="default">
+                      Sign in
+                    </Button>
+                  </div>
+                </form>
+              </div>
             </div>
-            <div>
-              <Input
-                name="password"
-                placeholder="Your password"
-                type="password"
-                onChange={handleChange}
-              />
-              {errors.password && <span className="text-red-500">{errors.password}</span>}
-            </div>
-            <Button type="submit" className="w-full">
-              Login
-            </Button>
-          </form>
+          </div>
         </div>
       </div>
-    </>
+    </div>
   )
 }

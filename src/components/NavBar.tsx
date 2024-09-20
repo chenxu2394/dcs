@@ -7,7 +7,7 @@ import {
 import { ModeToggle } from "./mode-toggle"
 import { Link } from "react-router-dom"
 import { Can } from "./Can"
-import { useContext } from "react"
+import { useContext, useEffect, useRef } from "react"
 import { DecodedTokenContext } from "@/providers/decodedToken-provider"
 import { Button } from "./ui/button"
 import { ShoppingCartIcon } from "lucide-react"
@@ -33,16 +33,23 @@ export const NavMenuItemLink = ({
   )
 }
 
-export function NavBar() {
+export function NavBar({ setNavBarHeight }: { setNavBarHeight: (height: number) => void }) {
   const { removeDecodedToken } = useContext(DecodedTokenContext)
   const navigate = useNavigate()
+  const navBarRef = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    if (navBarRef.current) {
+      setNavBarHeight(navBarRef.current.offsetHeight)
+    }
+  }, [])
 
   function handleLogout() {
     removeDecodedToken()
   }
 
   return (
-    <div className="flex justify-between items-center w-full p-2 shadow-md">
+    <div ref={navBarRef} className="flex justify-between items-center w-full p-2 shadow-md">
       <Link to="/" className="ml-4 font-bold text-lg no-underline">
         DCS
       </Link>
