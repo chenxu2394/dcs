@@ -45,10 +45,12 @@ export function Register() {
   }
 
   return (
-    <>
-      <div className="flex flex-col items-center justify-center h-screen">
-        <h3 className="text-3xl">Please Register</h3>
-        <div className="p-2">
+    <div className="flex flex-col items-center justify-center h-full px-4 sm:px-6 lg:px-8 xl:px-10">
+      <div className="mx-auto w-full max-w-xs sm:max-w-sm lg:max-w-md">
+        <h2 className="mt-6 text-3xl font-extrabold text-gray-900 text-center dark:text-white">
+          Sign Up
+        </h2>
+        <div className="p-2 mt-8">
           <form onSubmit={handleLogin} className="w-full space-y-6">
             <div>
               <Input name="email" placeholder="Your email" onChange={handleChange} />
@@ -73,6 +75,6 @@ export function Register() {
           </form>
         </div>
       </div>
-    </>
+    </div>
   )
 }
