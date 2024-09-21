@@ -39,7 +39,7 @@ export function ProductCard({ product }: ProductCardProps) {
       </div>
       <div className="flex flex-col p-4">
         <CardTitle className="text-lg font-bold mb-2">{product.name}</CardTitle>
-        <CardDescription className="text-sm text-gray-500 mb-2 line-clamp-2 overflow-hidden">
+        <CardDescription className="text-sm text-gray-500 mb-2 line-clamp-2 overflow-hidden dark:text-white">
           {product.description}
         </CardDescription>
         <div className="text-lg font-semibold mt-auto">€{product.price}</div>

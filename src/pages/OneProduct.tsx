@@ -52,7 +52,7 @@ export function OneProduct() {
       <Card className="overflow-hidden">
         <div className="md:flex">
           <div className="md:w-1/2">
-            <div className="relative h-[400px] bg-gray-100">
+            <div className="relative h-[400px] bg-gray-100 dark:bg-slate-500">
               <img
                 src={product.imageUrls[currentImageIndex]}
                 alt={`${product.name} - Image ${currentImageIndex + 1}`}
@@ -81,7 +81,7 @@ export function OneProduct() {
             </div>
             {product.imageUrls && product.imageUrls.length > 1 && (
               <div className="flex mt-4 justify-center">
-                <div className="flex space-x-2 overflow-x-auto">
+                <div className="flex space-x-2 overflow-x-auto p-2">
                   {product.imageUrls.map((url, index) => (
                     <img
                       key={index}
@@ -100,7 +100,9 @@ export function OneProduct() {
           <div className="md:w-1/2 p-6 flex flex-col" style={{ minHeight: "400px" }}>
             <div>
               <CardTitle className="text-3xl font-bold mb-4">{product.name}</CardTitle>
-              <CardDescription className="text-lg mb-6">{product.description}</CardDescription>
+              <CardDescription className="text-lg mb-6 dark:text-white">
+                {product.description}
+              </CardDescription>
             </div>
             <div className="mt-auto">
               <CardFooter className="p-0 flex-col items-end">
