@@ -21,12 +21,21 @@ export function ProductCard({ product }: ProductCardProps) {
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
-      <div className="flex items-center justify-center p-4">
-        <img
-          src={isHovered ? product.imageUrls[1] : product.imageUrls[0]}
-          alt={product.name}
-          className="w-1/3 h-32 object-contain"
-        />
+      <div className="flex items-center justify-center">
+        <div className="relative w-1/3 h-32 overflow-hidden flex items-center justify-center">
+          <img
+            src={product.imageUrls[0]}
+            alt={product.name}
+            className="absolute inset-0 w-full h-full object-contain transition-opacity duration-700"
+            style={{ opacity: isHovered ? 0 : 1 }}
+          />
+          <img
+            src={product.imageUrls[1]}
+            alt={`${product.name} - alternate view`}
+            className="absolute inset-0 w-full h-full object-contain transition-opacity duration-700"
+            style={{ opacity: isHovered ? 1 : 0 }}
+          />
+        </div>
       </div>
       <div className="flex flex-col p-4">
         <CardTitle className="text-lg font-bold mb-2">{product.name}</CardTitle>
