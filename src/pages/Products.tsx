@@ -23,34 +23,16 @@ export function Products() {
   const [selectedCategory, setSelectedCategory] = useState<string>("All Categories")
   const [allCategories, isFetchingCategories, errorCategories] = useGetCategories()
 
-  const [allProducts, isFetchingProducts, errorProducts] = useGetProducts()
-  const maxPrice =
-    isFetchingProducts || !allProducts.length
-      ? 0
-      : allProducts.reduce((acc, product) => Math.max(acc, product.price), 0)
-
-  const [selectedPriceRange, setSelectedPriceRange] = useState<number[]>([0, maxPrice])
   const [currentPage, setCurrentPage] = useState(1)
-
-  useEffect(() => {
-    if (selectedPriceRange[1] !== maxPrice) {
-      setSelectedPriceRange([selectedPriceRange[0], maxPrice])
-    }
-  }, [maxPrice])
 
   const size_default = 6 // Default number of products per page
 
-  const debouncedSelectedPriceRange = useDebounce(selectedPriceRange, 200)
-  const [priceLowerBound, priceUpperBound] = debouncedSelectedPriceRange
-
-  const [filterResult, isFetching, error] = useFilterProducts(
-    debouncedSearchTerm,
-    selectedCategory,
-    priceLowerBound,
-    priceUpperBound,
+  const [filterResult, isFetching, error] = useFilterProducts({
+    name: debouncedSearchTerm,
+    category: selectedCategory,
     page,
-    size_default
-  )
+    size: size_default
+  })
 
   const {
     content = [],
@@ -67,7 +49,7 @@ export function Products() {
     setPage(newPage - 1)
   }
 
-  if (isFetching || isFetchingCategories || isFetchingProducts) {
+  if (isFetching || isFetchingCategories) {
     return <Spinner size="large" className="h-screen items-center justify-center" />
   }
 
@@ -90,9 +72,6 @@ export function Products() {
                 .filter((name): name is string => name !== null)}
               selectedCategory={selectedCategory}
               setSelectedCategory={setSelectedCategory}
-              maxPrice={maxPrice}
-              selectedPriceRange={selectedPriceRange}
-              setSelectedPriceRange={setSelectedPriceRange}
             />
             <Pagination className="mt-4 mb-4" currentPage={currentPage} lastPage={totalPages}>
               <PaginationContent>

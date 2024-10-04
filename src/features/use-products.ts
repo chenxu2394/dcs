@@ -51,14 +51,23 @@ export function useSearchProducts(name: string): [ProductApiResLite, boolean, Er
   return [products, isFetching, error]
 }
 
-export function useFilterProducts(
-  name: string,
-  category: string,
-  minPrice: number,
-  maxPrice: number,
-  page: number,
+interface UseFilterProductsOptions {
+  name: string
+  category: string
+  minPrice?: number
+  maxPrice?: number
+  page: number
   size: number
-): [ProductApiResLite, boolean, Error | null] {
+}
+
+export function useFilterProducts({
+  name,
+  category,
+  minPrice = 0,
+  maxPrice = Infinity,
+  page,
+  size
+}: UseFilterProductsOptions): [ProductApiResLite, boolean, Error | null] {
   if (category === "All Categories") {
     category = ""
   }

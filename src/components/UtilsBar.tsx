@@ -9,9 +9,9 @@ interface Props {
   allCategoryNames: string[]
   selectedCategory: string
   setSelectedCategory: (category: string) => void
-  maxPrice: number
-  selectedPriceRange: number[]
-  setSelectedPriceRange: (range: number[]) => void
+  maxPrice?: number
+  selectedPriceRange?: number[]
+  setSelectedPriceRange?: (range: number[]) => void
 }
 
 export function UtilsBar({
@@ -19,10 +19,7 @@ export function UtilsBar({
   setSearchTerm,
   allCategoryNames,
   selectedCategory,
-  setSelectedCategory,
-  maxPrice,
-  selectedPriceRange,
-  setSelectedPriceRange
+  setSelectedCategory
 }: Props) {
   return (
     <div className="sm:px-6 lg:px-8 max-w-5xl mx-auto">
