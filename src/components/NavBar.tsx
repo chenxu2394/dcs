@@ -49,7 +49,10 @@ export function NavBar({ setNavBarHeight }: { setNavBarHeight: (height: number) 
   }
 
   return (
-    <div ref={navBarRef} className="flex justify-between items-center w-full p-2 shadow-md">
+    <div
+      ref={navBarRef}
+      className="flex justify-between items-center w-full py-8 px-4 sm:px-6 lg:px-8 max-w-5xl mx-auto shadow-md"
+    >
       <Link to="/" className="ml-4 font-bold text-lg no-underline">
         DCS
       </Link>
