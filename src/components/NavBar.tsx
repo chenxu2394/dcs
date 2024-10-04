@@ -58,7 +58,7 @@ export function NavBar({ setNavBarHeight }: { setNavBarHeight: (height: number) 
           <NavigationMenuList>
             <NavigationMenuItem className="flex">
               <NavMenuItemLink href="/">Home</NavMenuItemLink>
-              <NavMenuItemLink href="/products">Coins</NavMenuItemLink>
+              <NavMenuItemLink href="/">About</NavMenuItemLink>
               <Can
                 permission="LOGIN:VIEW"
                 permissionType="views"
