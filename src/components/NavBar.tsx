@@ -51,12 +51,12 @@ export function NavBar({ setNavBarHeight }: { setNavBarHeight: (height: number) 
   return (
     <div
       ref={navBarRef}
-      className="flex justify-between items-center w-full py-8 px-4 sm:px-6 lg:px-8 max-w-5xl mx-auto shadow-md"
+      className="relative flex items-center w-full py-8 px-4 sm:px-6 lg:px-8 max-w-5xl mx-auto shadow-md"
     >
-      <Link to="/" className="ml-4 font-bold text-lg no-underline">
+      <Link to="/" className="absolute left-4 font-bold text-lg no-underline">
         DCS
       </Link>
-      <div className="flex-grow flex justify-center">
+      <div className="mx-auto flex justify-center">
         <NavigationMenu>
           <NavigationMenuList>
             <NavigationMenuItem className="flex">
@@ -95,7 +95,7 @@ export function NavBar({ setNavBarHeight }: { setNavBarHeight: (height: number) 
           </NavigationMenuList>
         </NavigationMenu>
       </div>
-      <div className="flex items-center mr-4 gap-2">
+      <div className="absolute right-4 flex items-center gap-2">
         <Button
           variant="outline"
           onClick={() => {
