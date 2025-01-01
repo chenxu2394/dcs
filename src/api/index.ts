@@ -6,7 +6,8 @@ let baseURL = "http://localhost:8080/api"
 if (!isDevelopment) {
   // Update this later when you have a working backend server
   // baseURL = "https://fs18-java-backend-tzc4.onrender.com/api"
-  baseURL = "https://dcstest.azurewebsites.net/api"
+  // baseURL = "https://dcstest.azurewebsites.net/api"
+  baseURL = "https://dcs-backend.azurewebsites.net/api"
 }
 
 const api = axios.create({
