@@ -1,13 +1,16 @@
-# Frontend for a Digital Coins Store
+# Frontend for a mock Digital Coins Store
 
 ## Description
 
-This is an on-going frontend application for a digital coins store. It started as a simple e-commerce website which I built during my internship at Integrify.
-The backend is a java application built with Spring Boot ([Repo here](https://github.com/chenxu2394/dcs_backend)). And the database is a PostgreSQL database hosted on Supabase.
+This is an ongoing web app project for a mock digital coins store. It started as a simple e-commerce website which I built during my training at [Integrify](https://github.com/Integrify-Finland).
+
+- **Frontend**: Hosted using Azure Web App Service with Docker container.
+- **Backend**: A Java application built with Spring Boot, hosted on Azure Web App Service using Docker container ([Backend Repo here](https://github.com/chenxu2394/dcs_backend)).
+- **Database**: PostgreSQL database hosted on Azure Database for PostgreSQL.
 
 ## Live Demo
 
-[https://digital-coins-store.vercel.app/](https://digital-coins-store.vercel.app/)
+[https://digital-coins-store.azurewebsites.net](https://digital-coins-store.azurewebsites.net)
 
 ## Tech Stack
 
