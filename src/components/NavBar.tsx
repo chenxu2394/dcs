@@ -70,7 +70,7 @@ export function NavBar({ setNavBarHeight }: { setNavBarHeight: (height: number) 
         </SheetTrigger>
         <SheetContent side="left" className="w-[300px]">
           <Link to="/" className="absolute left-4 font-bold text-lg no-underline">
-            DCS
+            DCS<span className="text-orange-500">.</span>
           </Link>
           <div className="grid justify-center mt-10 w-full">
             <NavigationMenu>
@@ -116,7 +116,7 @@ export function NavBar({ setNavBarHeight }: { setNavBarHeight: (height: number) 
         </SheetContent>
       </Sheet>
       <Link to="/" className="absolute left-4 font-bold text-lg no-underline hidden lg:flex">
-        DCS
+        DCS<span className="text-orange-500">.</span>
       </Link>
       <div className="mx-auto justify-center hidden lg:flex">
         <NavigationMenu>
