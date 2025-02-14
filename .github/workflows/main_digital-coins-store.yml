@@ -3,6 +3,9 @@
 
 name: Build and deploy container app to Azure Web App - digital-coins-store
 
+env:
+  IMAGE_NAME: dcs-frontend
+
 on:
   push:
     branches:
@@ -11,41 +14,42 @@ on:
 
 jobs:
   build:
-    runs-on: 'ubuntu-latest'
+    runs-on: "ubuntu-latest"
 
     steps:
-    - uses: actions/checkout@v2
+      - uses: actions/checkout@v2
 
-    - name: Set up Docker Buildx
-      uses: docker/setup-buildx-action@v2
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
 
-    - name: Log in to registry
-      uses: docker/login-action@v2
-      with:
-        registry: https://ecmacr657.azurecr.io/
-        username: ${{ secrets.AzureAppService_ContainerUsername_d4b901b6cf2a41ecaf06e01075120d69 }}
-        password: ${{ secrets.AzureAppService_ContainerPassword_5608740a95ec4dda84f65a55da84e604 }}
+      - name: Log in to GitHub Container Registry
+        uses: docker/login-action@v2
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
 
-    - name: Build and push container image to registry
-      uses: docker/build-push-action@v3
-      with:
-        push: true
-        tags: ecmacr657.azurecr.io/${{ secrets.AzureAppService_ContainerUsername_d4b901b6cf2a41ecaf06e01075120d69 }}/frontend-image-amd:${{ github.sha }}
-        file: ./Dockerfile
+      - name: Build and push Docker image to GHCR
+        uses: docker/build-push-action@v3
+        with:
+          context: .
+          file: ./Dockerfile
+          push: true
+          tags: ghcr.io/${{ github.actor }}/${{ env.IMAGE_NAME }}:${{ github.sha }}
 
   deploy:
     runs-on: ubuntu-latest
     needs: build
     environment:
-      name: 'production'
+      name: "production"
       url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
 
     steps:
-    - name: Deploy to Azure Web App
-      id: deploy-to-webapp
-      uses: azure/webapps-deploy@v2
-      with:
-        app-name: 'digital-coins-store'
-        slot-name: 'production'
-        publish-profile: ${{ secrets.AzureAppService_PublishProfile_5cda52ae854942b8b8086bb8e78066aa }}
-        images: 'ecmacr657.azurecr.io/${{ secrets.AzureAppService_ContainerUsername_d4b901b6cf2a41ecaf06e01075120d69 }}/frontend-image-amd:${{ github.sha }}'
+      - name: Deploy to Azure Web App
+        id: deploy-to-webapp
+        uses: azure/webapps-deploy@v2
+        with:
+          app-name: "digital-coins-store"
+          slot-name: "production"
+          publish-profile: ${{ secrets.AzureAppService_PublishProfile_5cda52ae854942b8b8086bb8e78066aa }}
+          images: "ghcr.io/${{ github.actor }}/${{ env.IMAGE_NAME }}:${{ github.sha }}"
