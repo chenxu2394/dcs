@@ -1,5 +1,7 @@
 # Frontend for a mock Digital Coins Store
 
+![Construction](https://img.shields.io/badge/Project-Under%20Construction-orange)
+
 ## Description
 
 This is an ongoing web app project for a mock digital coins store. It started as a simple e-commerce website which I built during my training at [Integrify](https://github.com/Integrify-Finland).
